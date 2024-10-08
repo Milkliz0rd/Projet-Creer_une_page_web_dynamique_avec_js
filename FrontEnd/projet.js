@@ -48,8 +48,11 @@ const hotelRestaurantItems = document.createElement("button");
 hotelRestaurantItems.innerText = "Hôtels & Restaurants";
 categoryMenu.appendChild(hotelRestaurantItems)
 
-
+// event sur le bouton tous 
+allItems.addEventListener("click",() => {
+    allItems.classList.toggle("button-clicked");
+    genererProjet();
+});
 
 
 // On appel la fonction générer projet
-genererProjet();

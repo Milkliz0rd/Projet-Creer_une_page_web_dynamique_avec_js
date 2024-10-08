@@ -146,6 +146,22 @@ button {
 	border: solid #1D6154 1px;
 	border-radius: 60px ;
 }
+
+.button-clicked {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin: 8px;
+	width: auto;
+	padding-left: 10px;
+	padding-right: 10px;
+	height: 30px;
+	text-align: center;
+	border: solid #1D6154 1px;
+	border-radius: 60px ;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
