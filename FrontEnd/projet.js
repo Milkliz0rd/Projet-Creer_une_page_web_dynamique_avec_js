@@ -37,9 +37,16 @@ allItems.innerText = "Tous";
 categoryMenu.appendChild(allItems);
 // Création de la catégorie Objet
 const objetItems = document.createElement("button");
-objetItems.innerText = "Objets"
-categoryMenu.appendChild(objetItems)
+objetItems.innerText = "Objets";
+categoryMenu.appendChild(objetItems);
 // Création de la catégorie appartements
+const appartItems = document.createElement("button")
+appartItems.innerText ="Appartements";
+categoryMenu.appendChild(appartItems);
+// Création de la catégorie hôtel & Restaurant
+const hotelRestaurantItems = document.createElement("button");
+hotelRestaurantItems.innerText = "Hôtels & Restaurants";
+categoryMenu.appendChild(hotelRestaurantItems)
 
 
 

@@ -23,6 +23,7 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -124,6 +125,26 @@ li:hover {
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
+}
+
+.category-menu {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 50px;
+}
+button {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: #1D6154;
+	background-color: white;
+	margin: 8px;
+	width: auto;
+	padding-left: 10px;
+	padding-right: 10px;
+	height: 30px;
+	text-align: center;
+	border: solid #1D6154 1px;
+	border-radius: 60px ;
 }
 .gallery {
 	width: 100%;
