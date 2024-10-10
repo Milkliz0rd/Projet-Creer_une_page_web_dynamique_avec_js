@@ -1,6 +1,6 @@
 //Lien entre notre fichier js et la section work de notre API
-const projet = await fetch("http://localhost:5678/api/works").then((projet) =>
-  projet.json()
+const projet = await fetch("http://localhost:5678/api/works").then((p) =>
+  p.json()
 );
 
 // On ajout dynamiquement les projets via l'API
@@ -58,18 +58,23 @@ navBtn.forEach((button) => {
   button.addEventListener("click", function () {
     navBtn.forEach((button) => button.classList.remove("active"));
     this.classList.add("active");
-  });
-});
-
+  })
+})
 // event sur le bouton "tous"
 allItems.addEventListener("click", () => {
   genererProjet();
 });
 
-//event sur le bouton objet
-objetItems.addEventListener("click",() => {
+// //event sur le bouton objet
+// objetItems.addEventListener("click",() => {
+//       const projetFIlteredByObjet = projet.filter(projets => {
+//        projets === new Set([{"category":{"name":"Objets"}}])
+//       })
+//       console.log(projetFIlteredByObjet);
       
-})
+//       document.querySelector(".gallery").innerHTML="";
+//       genererProjet(projetFIlteredByObjet);
+// });
 
 // On appel la fonction générer projet
-genererProjet(allItems);
+genererProjet()
