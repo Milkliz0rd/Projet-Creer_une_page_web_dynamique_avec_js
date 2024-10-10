@@ -1,80 +1,78 @@
-//Lien entre notre fichier js et la section work de notre API
-const projet = await fetch("http://localhost:5678/api/works").then((p) =>
-  p.json()
-);
+// Récupérer les projets depuis l'API
+const projet = await fetch("http://localhost:5678/api/works").then((res) => res.json());
 
-// On ajout dynamiquement les projets via l'API
-function genererProjet() {
-  for (let i = 0; i < projet.length; i++) {
-    const figure = projet[i];
-    // Récupération de l'élément du Dom qui acceuillera les projets
-    const sectionProjet = document.querySelector(".gallery");
-    // Création des balises dédiée a un projet
+// Fonction pour générer les projets dans la galerie
+function genererProjet(projets) {
+  const sectionProjet = document.querySelector(".gallery");
+  sectionProjet.innerHTML = ""; // On vide la galerie avant de l'afficher
+  for (let i = 0; i < projets.length; i++) {
+    const figure = projets[i];
+
+    // Création des éléments pour un projet
     const projetElement = document.createElement("figure");
-    // création des balises
 
-    // les images
+    // Image du projet
     const imgProjet = document.createElement("img");
     imgProjet.src = figure.imageUrl;
     projetElement.appendChild(imgProjet);
 
-    // les légendes (figcaption)
+    // Légende du projet
     const nomProjet = document.createElement("figcaption");
     nomProjet.innerText = figure.title;
     projetElement.appendChild(nomProjet);
 
-    // on ajoute nos balises à l'élement parent
+    // Ajout à la galerie
     sectionProjet.appendChild(projetElement);
   }
 }
 
-//Création d'un menu de catégorie
+// Création du menu de catégories
 const categoryMenu = document.querySelector(".category-menu");
-// Création de la catégorie tous
+
+// Création des boutons de catégorie
 const allItems = document.createElement("button");
 allItems.classList.add("btn-nav", "active");
 allItems.innerText = "Tous";
 categoryMenu.appendChild(allItems);
-// Création de la catégorie Objet
+
 const objetItems = document.createElement("button");
 objetItems.classList.add("btn-nav");
 objetItems.innerText = "Objets";
 categoryMenu.appendChild(objetItems);
-// Création de la catégorie appartements
+
 const appartItems = document.createElement("button");
 appartItems.classList.add("btn-nav");
 appartItems.innerText = "Appartements";
 categoryMenu.appendChild(appartItems);
-// Création de la catégorie hôtel & Restaurant
+
 const hotelRestaurantItems = document.createElement("button");
 hotelRestaurantItems.classList.add("btn-nav");
 hotelRestaurantItems.innerText = "Hôtels & Restaurants";
 categoryMenu.appendChild(hotelRestaurantItems);
 
-// Selectionne tous les boutons de navigation
+// Ajouter un écouteur d'événement pour chaque bouton
 const navBtn = document.querySelectorAll(".btn-nav");
 navBtn.forEach((button) => {
-  //Listener sur mes boutons pour qu'ils appliquent la class "active" quand on clique dessus et le supprime quand on clique sur un autre
   button.addEventListener("click", function () {
-    navBtn.forEach((button) => button.classList.remove("active"));
+    // Gérer l'activation visuelle des boutons
+    navBtn.forEach((btn) => btn.classList.remove("active"));
     this.classList.add("active");
-  })
-})
-// event sur le bouton "tous"
-allItems.addEventListener("click", () => {
-  genererProjet();
+
+    // Filtrer et afficher les projets selon le bouton sélectionné
+    if (this === allItems) {
+      genererProjet(projet); // Afficher tous les projets
+    } else if (this === objetItems) {
+      const filteredProjets = projet.filter((p) => p.category.name === "Objets");
+      genererProjet(filteredProjets); // Afficher seulement les projets de la catégorie "Objets"
+    } else if (this === appartItems) {
+      const filteredProjets = projet.filter((p) => p.category.name === "Appartements");
+      genererProjet(filteredProjets); // Afficher seulement les projets de la catégorie "Appartements"
+    } else if (this === hotelRestaurantItems) {
+      const filteredProjets = projet.filter((p) => p.category.name === "Hotels & restaurants");
+      genererProjet(filteredProjets); // Afficher seulement les projets de la catégorie "Hôtels & Restaurants"
+    }
+  });
 });
 
-// //event sur le bouton objet
-// objetItems.addEventListener("click",() => {
-//       const projetFIlteredByObjet = projet.filter(projets => {
-//        projets === new Set([{"category":{"name":"Objets"}}])
-//       })
-//       console.log(projetFIlteredByObjet);
-      
-//       document.querySelector(".gallery").innerHTML="";
-//       genererProjet(projetFIlteredByObjet);
-// });
-
-// On appel la fonction générer projet
-genererProjet()
+// Générer les projets initiaux (tous les projets)
+genererProjet(projet);
