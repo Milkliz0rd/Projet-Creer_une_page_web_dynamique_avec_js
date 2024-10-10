@@ -132,7 +132,7 @@ li:hover {
 	justify-content: center;
 	margin-bottom: 50px;
 }
-button {
+.btn-nav {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: #1D6154;
@@ -145,21 +145,12 @@ button {
 	text-align: center;
 	border: solid #1D6154 1px;
 	border-radius: 60px ;
+	cursor: pointer;
 }
 
-.button-clicked {
-	font-family: 'Syne';
-	font-weight: 700;
+.btn-nav.active {
 	color: white;
 	background-color: #1D6154;
-	margin: 8px;
-	width: auto;
-	padding-left: 10px;
-	padding-right: 10px;
-	height: 30px;
-	text-align: center;
-	border: solid #1D6154 1px;
-	border-radius: 60px ;
 }
 
 .gallery {
