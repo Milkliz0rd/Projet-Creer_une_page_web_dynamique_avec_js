@@ -1,3 +1,6 @@
+const currentPageBtn = document.querySelector("#login-page");
+currentPageBtn.classList.add("active-nav-page");
+
 function initializedLoginUser() {
   const loginForm = document.querySelector(".login-form");
 
@@ -18,17 +21,16 @@ function initializedLoginUser() {
       .then((response) => {
         if (response.status === 404) {
           return response.json().then((data) => {
-            // Afficher le message d'erreur renvoyé par l'API
             alert(data.message);
           });
         }
-        return response.json(); // Conversion en JSON pour les autres réponses
+        return response.json();
       })
       .then((data) => {
         if (data && data.token) {
           // Stocker le token et rediriger
           localStorage.setItem("token", data.token);
-          window.location.href = "./index.html"; // Correction ici
+          window.location.href = "./index.html";
         }
       })
       .catch((error) => {
@@ -36,6 +38,4 @@ function initializedLoginUser() {
       });
   });
 }
-
-// Initialiser l'événement au chargement de la page
 initializedLoginUser();
