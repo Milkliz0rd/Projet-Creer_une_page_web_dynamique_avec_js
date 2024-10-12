@@ -346,3 +346,7 @@ footer {
   justify-content: center;
   color: black;
 }
+
+.active-nav-page {
+  font-weight: bold;
+}

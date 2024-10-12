@@ -1,3 +1,6 @@
+const currentPageBtn = document.querySelector("#projet-page");
+currentPageBtn.classList.add("active-nav-page");
+
 //Lien entre notre fichier js et la section work de notre API
 const projet = await fetch("http://localhost:5678/api/works").then((response) =>
   response.json()
