@@ -10,23 +10,40 @@
       href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
     <script src="/FrontEnd/projet.js" type="module" defer></script>
   </head>
   <body>
     <header>
-      <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-      <nav>
-        <ul>
-          <li id="projet-page"><a href="index.html">projets</a></li>
-          <li id="contact-section"><a href="#name">contact</a></li>
-          <li id="login-page"><a href="/FrontEnd/login-page.html">login</a></li>
-          <li>
-            <img src="./assets/icons/instagram.png" alt="Instagram" />
-          </li>
-        </ul>
-      </nav>
+      <div class="edition-mode">
+        <p id="logo-mode-edition">
+          <i class="fa-regular fa-pen-to-square" id="logo-mode-edition"></i>
+          Mode édition
+        </p>
+        >
+      </div>
+      <section class="title-nav">
+        <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+        <nav>
+          <ul>
+            <li id="projet-page"><a href="index.html">projets</a></li>
+            <li id="contact-section"><a href="#name">contact</a></li>
+            <li id="login-page">
+              <a href="/FrontEnd/login-page.html">login</a>
+            </li>
+            <li id="logout-page"><a href="#">logout</a></li>
+            <li>
+              <img src="./assets/icons/instagram.png" alt="Instagram" />
+            </li>
+          </ul>
+        </nav>
+      </section>
     </header>
     <main>
       <section id="introduction">
@@ -53,7 +70,12 @@
         </article>
       </section>
       <section id="portfolio">
-        <h2>Mes Projets</h2>
+        <div class="title-modale">
+          <h2>Mes Projets</h2>
+          <p id="logo-modale">
+            <i class="fa-regular fa-pen-to-square"></i> <a href="#">modifier</a>
+          </p>
+        </div>
         <nav class="category-menu"></nav>
         <div class="gallery"></div>
       </section>

@@ -38,7 +38,7 @@ function initializedLoginUser() {
           // réponce pour "et si la réponce de mon API est le status 404"
         } else if (response.status === 401) {
           // on créé une alerte avec une chaine de caractère car l'api n'a pas de réponse pour un statut 401
-          alert("Mot de passe ou utilisateur incorrect.");
+          alert("Erreur dans l’identifiant ou le mot de passe.");
           // on retourne la réponse pour éviter que la fonction continue de s'executer
           return;
         }

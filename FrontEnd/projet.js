@@ -1,3 +1,5 @@
+// import { initializedLoginUser } from "./login";
+
 const currentPageBtn = document.querySelector("#projet-page");
 currentPageBtn.classList.add("active-nav-page");
 
@@ -95,5 +97,40 @@ navBtn.forEach((button) => {
   });
 });
 //------------------------------------------------------------------------------
+const loginBtn = document.querySelector("#login-page");
+const logOutBtn = document.querySelector("#logout-page");
+const logoModal = document.querySelector("#logo-modale");
+const editionMode = document.querySelector(".edition-mode");
+const titleNav = document.querySelector("header");
+
+function ckeckUserAuthentification() {
+  const token = localStorage.getItem("token");
+  if (token) {
+    loginBtn.classList.add("hidden");
+    categoryMenu.classList.add("hidden");
+    titleNav.classList.add("header-edition-mode");
+    logoModal.classList.remove("hidden");
+    logOutBtn.classList.remove("hidden");
+  } else {
+    logOutBtn.classList.add("hidden");
+    logoModal.classList.add("hidden");
+    loginBtn.classList.remove("hidden");
+    categoryMenu.classList.remove("hidden");
+    titleNav.classList.remove("header-edition-mode");
+    editionMode.innerHTML = "";
+    editionMode.classList.remove("edition-mode");
+  }
+}
+
+//------------------------------------------------------------------------------
+function logOutUser() {
+  localStorage.removeItem("token");
+  alert("Vous êtes déconnecté");
+  ckeckUserAuthentification();
+}
+
+logOutBtn.addEventListener("click", logOutUser);
+// On appel la fonction "ckeckUserAuthentification"
+ckeckUserAuthentification();
 // on met de base la catégorie "tous"
 genererProjet(projet);
