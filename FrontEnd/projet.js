@@ -1,4 +1,4 @@
-// import { initializedLoginUser } from "./login";
+import { openModal } from "./modal.js";
 
 const currentPageBtn = document.querySelector("#projet-page");
 currentPageBtn.classList.add("active-nav-page");
@@ -82,6 +82,9 @@ categoriesSet.forEach((category) => {
     genererProjet(projetFiltered);
   });
 });
+
+// on met de base la catégorie "tous"
+genererProjet(projet);
 //---------------Ajout du css lorsqu'on active un bouton-----------------------
 
 // Sélectionne tous les boutons de navigations
@@ -121,10 +124,28 @@ function ckeckUserAuthentification() {
     editionMode.classList.remove("edition-mode");
   }
 }
+// On appel la fonction "ckeckUserAuthentification"
+ckeckUserAuthentification();
+//------------------------------- modale ---------------------------------------
 
-//------------------------------------------------------------------------------
+document.querySelectorAll(".js-modal").forEach((a) => {
+  a.addEventListener("click", openModal);
+});
 
-//------------------------------------------------------------------------------
+function genererImageModal() {
+  const sectionImageProjet = document.querySelector(".section-image-projet");
+  sectionImageProjet.classList.add("figure-modal");
+  sectionImageProjet.innerHTML = "";
+  projet.forEach((p) => {
+    const projetElements = document.createElement("figure");
+    const imageElements = document.createElement("img");
+    imageElements.src = p.imageUrl;
+    projetElements.appendChild(imageElements);
+    sectionImageProjet.appendChild(projetElements);
+  });
+}
+genererImageModal();
+//------------------------------ log-out ---------------------------------------
 function logOutUser() {
   localStorage.removeItem("token");
   alert("Vous êtes déconnecté");
@@ -132,19 +153,3 @@ function logOutUser() {
 }
 
 logOutBtn.addEventListener("click", logOutUser);
-// On appel la fonction "ckeckUserAuthentification"
-ckeckUserAuthentification();
-// on met de base la catégorie "tous"
-genererProjet(projet);
-
-const openModal = function (event) {
-  event.preventDefault();
-  const target = document.querySelector(event.target.getAttribute("href"));
-  target.style.display = null;
-  target.removeAttribute("aria-hidden");
-  target.setAttribute("aria-modal", "true");
-};
-
-document.querySelectorAll(".js-modal").forEach((a) => {
-  a.addEventListener("click", openModal);
-});
