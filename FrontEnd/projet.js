@@ -121,7 +121,8 @@ function ckeckUserAuthentification() {
     editionMode.classList.remove("edition-mode");
   }
 }
-//------------------------------Partie Modale-----------------------------------
+
+//------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
 function logOutUser() {
@@ -131,8 +132,19 @@ function logOutUser() {
 }
 
 logOutBtn.addEventListener("click", logOutUser);
-
 // On appel la fonction "ckeckUserAuthentification"
 ckeckUserAuthentification();
 // on met de base la catégorie "tous"
 genererProjet(projet);
+
+const openModal = function (event) {
+  event.preventDefault();
+  const target = document.querySelector(event.target.getAttribute("href"));
+  target.style.display = null;
+  target.removeAttribute("aria-hidden");
+  target.setAttribute("aria-modal", "true");
+};
+
+document.querySelectorAll(".js-modal").forEach((a) => {
+  a.addEventListener("click", openModal);
+});
