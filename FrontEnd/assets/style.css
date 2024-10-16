@@ -130,15 +130,14 @@ table {
 }
 /** end reset css**/
 body {
-  max-width: 1140px;
-  margin: auto;
   font-family: "Work Sans";
   font-size: 14px;
   background-color: rgb(251, 248, 241);
 }
-header {
-  display: flex;
-  justify-content: space-between;
+
+#header-main {
+  max-width: 1140px;
+  margin: auto;
 }
 .edition-mode {
   position: fixed;
@@ -150,14 +149,13 @@ header {
   height: 5em;
 }
 .header-edition-mode {
-  margin: 50px;
+  margin: 90px;
 }
 #logo-mode-edition {
   color: white;
   text-align: center;
   margin-top: 1em;
 }
-
 .title-nav {
   width: 100%;
   display: flex;
@@ -209,6 +207,7 @@ img[alt="Instagram"] {
 #introduction {
   display: flex;
   align-items: center;
+  margin-top: 75px;
 }
 #introduction figure {
   flex: 1;
@@ -229,6 +228,9 @@ img[alt="Instagram"] {
 #introduction p {
   margin-bottom: 0.5em;
 }
+#portfolio {
+  margin-top: 75px;
+}
 #portfolio h2 {
   text-align: center;
   margin-bottom: 1em;
@@ -246,6 +248,11 @@ img[alt="Instagram"] {
 }
 #logo-modale {
   padding: 0.5em;
+}
+#logo-modale,
+a {
+  text-decoration: none;
+  color: black;
 }
 .btn-nav {
   font-family: "Syne";
@@ -282,6 +289,7 @@ img[alt="Instagram"] {
 #contact {
   width: 50%;
   margin: auto;
+  margin-top: 75px;
 }
 #contact > * {
   text-align: center;
@@ -307,6 +315,7 @@ img[alt="Instagram"] {
 }
 #contact textarea {
   border: none;
+  resize: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
   background-color: white;
 }
@@ -347,10 +356,15 @@ footer {
   margin-top: auto;
 }
 /* login page only */
-
+#header-login {
+  display: flex;
+  justify-content: space-between;
+  margin: 50px;
+}
 #login {
   width: 50%;
   margin: auto;
+  margin-top: 10%;
 }
 #login > * {
   text-align: center;
@@ -382,4 +396,15 @@ footer {
 
 .active-nav-page {
   font-weight: bold;
+}
+
+#body-login {
+  max-width: 1140px;
+  margin: auto;
+}
+#footer-login {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
 }
