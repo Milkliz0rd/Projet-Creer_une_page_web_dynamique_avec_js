@@ -99,7 +99,7 @@ navBtn.forEach((button) => {
 //------------------------------------------------------------------------------
 const loginBtn = document.querySelector("#login-page");
 const logOutBtn = document.querySelector("#logout-page");
-const logoModal = document.querySelector("#logo-modale");
+const logoModal = document.querySelector("#logo-modal");
 const editionMode = document.querySelector(".edition-mode");
 const titleNav = document.querySelector("header");
 
@@ -121,6 +121,7 @@ function ckeckUserAuthentification() {
     editionMode.classList.remove("edition-mode");
   }
 }
+//------------------------------Partie Modale-----------------------------------
 
 //------------------------------------------------------------------------------
 function logOutUser() {
@@ -130,6 +131,7 @@ function logOutUser() {
 }
 
 logOutBtn.addEventListener("click", logOutUser);
+
 // On appel la fonction "ckeckUserAuthentification"
 ckeckUserAuthentification();
 // on met de base la catégorie "tous"

@@ -28,7 +28,7 @@
         </p>
         >
       </div>
-      <section class="title-nav">
+      <div class="title-nav">
         <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
         <nav>
           <ul>
@@ -43,7 +43,7 @@
             </li>
           </ul>
         </nav>
-      </section>
+      </div>
     </header>
     <main>
       <section id="introduction">
@@ -70,11 +70,25 @@
         </article>
       </section>
       <section id="portfolio">
-        <div class="title-modale">
+        <div class="title-portfolio">
           <h2>Mes Projets</h2>
-          <p id="logo-modale">
-            <i class="fa-regular fa-pen-to-square"></i> <a href="#">modifier</a>
+          <p id="logo-modal">
+            <i class="fa-regular fa-pen-to-square"></i>
+            <a href="#modal1">modifier</a>
           </p>
+          <aside
+            id="modal1"
+            class="modal"
+            aria-hidden="true"
+            role="dialog"
+            aria-labelledby="title-modal"
+            style="display: none"
+          >
+            <div class="modal-wrapper">
+              <h3 id="title-modal">Galerie photo</h3>
+              <section class="gallery-modal"></section>
+            </div>
+          </aside>
         </div>
         <nav class="category-menu"></nav>
         <div class="gallery"></div>
@@ -94,7 +108,7 @@
       </section>
     </main>
 
-    <footer>
+    <footer id="footer-projet">
       <nav>
         <ul>
           <li>Mentions Légales</li>
