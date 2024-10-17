@@ -424,27 +424,48 @@ footer {
   background-color: rgba(0, 0, 0, 0.6);
 }
 .modal-wrapper {
-  overflow: auto;
   width: 600px;
-  max-width: calc(100vh -20px);
-  max-height: calc(100vh -20px);
   background-color: #fff;
   padding: 20px;
+  border-radius: 10px;
 }
 #modal-title {
   text-align: center;
-  font-size: 22px;
+  font-size: 28px;
+  margin-top: 20px;
+}
+.js-modal-close {
+  border: none;
+  background-color: #fff;
+  display: flex;
+  width: 100%;
+  flex-direction: row-reverse;
+  cursor: pointer;
+}
+.modif-gallery {
   margin: 50px;
 }
-
 .figure-modal {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   justify-content: center;
-}
-.figure-modal figure {
-  gap: 20px;
+  grid-template-columns: 90px 90px 90px 90px 90px;
+  row-gap: 25px;
 }
 .figure-modal img {
   width: 80px;
+}
+#modal-line {
+  display: flex;
+  border-top: 1px solid #80808080;
+  max-width: 80%;
+  margin: auto;
+}
+#add-picture-btn {
+  justify-content: center;
+  display: flex;
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 20px;
+  align-items: center;
+  width: 20em;
 }

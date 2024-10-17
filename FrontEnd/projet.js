@@ -133,7 +133,7 @@ document.querySelectorAll(".js-modal").forEach((a) => {
 });
 
 function genererImageModal() {
-  const sectionImageProjet = document.querySelector(".section-image-projet");
+  const sectionImageProjet = document.querySelector(".modif-gallery");
   sectionImageProjet.classList.add("figure-modal");
   sectionImageProjet.innerHTML = "";
   projet.forEach((p) => {
