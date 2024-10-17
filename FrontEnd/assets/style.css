@@ -429,7 +429,7 @@ footer {
   padding: 20px;
   border-radius: 10px;
 }
-#modal-title {
+.modal-title {
   text-align: center;
   font-size: 28px;
   margin-top: 20px;
@@ -441,6 +441,7 @@ footer {
   width: 100%;
   flex-direction: row-reverse;
   cursor: pointer;
+  font-size: 1.5em;
 }
 .modif-gallery {
   margin: 50px;
@@ -468,4 +469,38 @@ footer {
   margin-bottom: 20px;
   align-items: center;
   width: 20em;
+}
+.ajout-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(224, 232, 245);
+  width: 400px;
+  margin-top: 25px;
+  height: 10em;
+  border-radius: 5px;
+}
+#logo-picture {
+  color: rgb(184, 184, 184);
+  display: flex;
+  font-size: 5em;
+}
+#add-pitcure-btn {
+  z-index: 0;
+  border-radius: 60px;
+}
+#p-btn-picture {
+  z-index: 0;
+}
+#add-picture-input {
+  z-index: 1;
+  opacity: 0;
 }
