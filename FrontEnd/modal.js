@@ -36,3 +36,65 @@ function closeModal(event) {
 function stopPropagation(e) {
   e.stopPropagation();
 }
+
+export function genererImageModal() {
+  const sectionImageProjet = document.querySelector(".modif-gallery");
+  sectionImageProjet.classList.add("figure-modal");
+  sectionImageProjet.innerHTML = "";
+
+  projet.forEach((p) => {
+    // Création des éléments modaux
+    const projetElementsModal = document.createElement("figure");
+    projetElementsModal.classList.add("projet-element-modal");
+    projetElementsModal.setAttribute("id", "projet-element-modal-" + p.id);
+
+    const imageElements = document.createElement("img");
+    imageElements.src = p.imageUrl;
+    imageElements.classList.add("img-modal");
+    projetElementsModal.appendChild(imageElements);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.setAttribute("id", "delete-Btn");
+
+    const deleteIcon = document.createElement("i");
+    deleteIcon.classList.add("fa-regular", "fa-trash-can");
+    deleteIcon.setAttribute("id", "delete-icon");
+    deleteButton.appendChild(deleteIcon);
+
+    projetElementsModal.appendChild(deleteButton);
+    sectionImageProjet.appendChild(projetElementsModal);
+
+    // Sélection de l'élément correspondant dans la galerie
+    const projetElementsGallery = document.querySelector(
+      ".projet-element-gallery"
+    );
+    projetElementsGallery.setAttribute("id", "projet-element-gallery-" + p.id);
+
+    // Ajout de l'événement de suppression
+    deleteButton.addEventListener("click", async () => {
+      const id = p.id;
+      if (window.confirm("Souhaitez-vous supprimer cet élément ?")) {
+        try {
+          const token = window.localStorage.getItem("token");
+          const response = await fetch(
+            "http://localhost:5678/api/works/" + id,
+            {
+              headers: {
+                Accept: "application/json",
+                Authorization: "Bearer " + token,
+              },
+              method: "DELETE",
+            }
+          );
+          if (response.status === 200 || response.status === 204) {
+            // Suppression des éléments du DOM
+            projetElementsModal.remove();
+            projetElementsGallery.remove();
+          }
+        } catch (error) {
+          console.error("Erreur lors de la suppression du projet :", error);
+        }
+      }
+    });
+  });
+}
