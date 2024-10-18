@@ -1,4 +1,4 @@
-import { openModal } from "./modal.js";
+import { openModal, genererImageModal } from "./modal.js";
 
 const currentPageBtn = document.querySelector("#projet-page");
 currentPageBtn.classList.add("active-nav-page");
@@ -132,26 +132,6 @@ document.querySelectorAll(".js-modal").forEach((a) => {
   a.addEventListener("click", openModal);
 });
 
-function genererImageModal() {
-  const sectionImageProjet = document.querySelector(".modif-gallery");
-  sectionImageProjet.classList.add("figure-modal");
-  sectionImageProjet.innerHTML = "";
-  projet.forEach((p) => {
-    const projetElements = document.createElement("figure");
-    const imageElements = document.createElement("img");
-    imageElements.src = p.imageUrl;
-    imageElements.classList.add("img-modal");
-    projetElements.appendChild(imageElements);
-    const deleteButton = document.createElement("button");
-    deleteButton.setAttribute("id", "delete-Btn");
-    const deleteIcon = document.createElement("i");
-    deleteIcon.classList.add("fa-regular", "fa-trash-can");
-    deleteIcon.setAttribute("id", "delete-icon");
-    deleteButton.appendChild(deleteIcon);
-    projetElements.appendChild(deleteButton);
-    sectionImageProjet.appendChild(projetElements);
-  });
-}
 genererImageModal();
 //------------------------------ log-out ---------------------------------------
 function logOutUser() {
