@@ -1,4 +1,4 @@
-import { openModal, genererImageModal } from "./modal.js";
+import { openModal } from "./modal.js";
 
 const currentPageBtn = document.querySelector("#projet-page");
 currentPageBtn.classList.add("active-nav-page");
@@ -26,21 +26,22 @@ function genererProjet(projets) {
   // On récupère chaque projets de l'api
   projets.forEach((p) => {
     // Création des balises dédiée a un projet
-    const projetElements = document.createElement("figure");
+    const projetElementsGallery = document.createElement("figure");
+    projetElementsGallery.classList.add("projet-element-gallery");
     // Création des images des projets
     const imgElement = document.createElement("img");
     // on récupère les images sur l'api
     imgElement.src = p.imageUrl;
     // on rattache les images à notre parent "projetElement"
-    projetElements.appendChild(imgElement);
+    projetElementsGallery.appendChild(imgElement);
     // Création des légendes du projets
     const nomElement = document.createElement("figcaption");
     // on récupère les légendes via l'api
     nomElement.innerText = p.title;
     // on rattache les légendes à son parent "projetElement"
-    projetElements.appendChild(nomElement);
+    projetElementsGallery.appendChild(nomElement);
     // On rattache nos éléments à sont parent "sectionProjet"
-    sectionProjet.appendChild(projetElements);
+    sectionProjet.appendChild(projetElementsGallery);
   });
 }
 //------------------------ajout des menus catégories-------------------------
@@ -132,7 +133,71 @@ document.querySelectorAll(".js-modal").forEach((a) => {
   a.addEventListener("click", openModal);
 });
 
+function genererImageModal() {
+  const sectionImageProjet = document.querySelector(".modif-gallery");
+  sectionImageProjet.classList.add("figure-modal");
+  sectionImageProjet.innerHTML = "";
+
+  projet.forEach((p) => {
+    // Création des éléments modaux
+    const projetElementsModal = document.createElement("figure");
+    projetElementsModal.classList.add("projet-element-modal");
+    projetElementsModal.id = "projet-element-modal-" + p.id;
+
+    const imageElements = document.createElement("img");
+    imageElements.src = p.imageUrl;
+    imageElements.classList.add("img-modal");
+    projetElementsModal.appendChild(imageElements);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.setAttribute("id", "delete-Btn");
+
+    const deleteIcon = document.createElement("i");
+    deleteIcon.classList.add("fa-regular", "fa-trash-can");
+    deleteIcon.setAttribute("id", "delete-icon");
+    deleteButton.appendChild(deleteIcon);
+
+    projetElementsModal.appendChild(deleteButton);
+    sectionImageProjet.appendChild(projetElementsModal);
+
+    // Sélection de l'élément correspondant dans la galerie
+    const projetElementsGallery = document.querySelector(
+      ".projet-element-gallery"
+    );
+    projetElementsGallery.id = "projet-element-gallery-" + p.id;
+
+    // Ajout de l'événement de suppression
+    deleteButton.addEventListener("click", async () => {
+      const id = p.id;
+      if (window.confirm("Souhaitez-vous supprimer cet élément ?")) {
+        try {
+          const token = window.localStorage.getItem("token");
+          const response = await fetch(
+            "http://localhost:5678/api/works/" + id,
+            {
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+              },
+              method: "DELETE",
+            }
+          );
+          if (response.status === 200 || response.status === 204) {
+            // Suppression des éléments du DOM
+            projetElementsModal.remove();
+            projetElementsGallery.remove();
+          }
+        } catch (error) {
+          console.error("Erreur lors de la suppression du projet :", error);
+        }
+      }
+    });
+  });
+}
+
 genererImageModal();
+
 //------------------------------ log-out ---------------------------------------
 function logOutUser() {
   localStorage.removeItem("token");
