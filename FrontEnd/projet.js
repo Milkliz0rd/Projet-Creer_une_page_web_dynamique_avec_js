@@ -1,4 +1,4 @@
-import { openModal, genererImageModal } from "./modal.js";
+import { openModal, ModalGalleryPhoto } from "./modal.js";
 
 const currentPageBtn = document.querySelector("#projet-page");
 currentPageBtn.classList.add("active-nav-page");
@@ -143,4 +143,4 @@ document.querySelectorAll(".js-modal").forEach((a) => {
   a.addEventListener("click", openModal);
 });
 
-genererImageModal();
+ModalGalleryPhoto();

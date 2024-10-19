@@ -429,11 +429,12 @@ footer {
   padding: 20px;
   border-radius: 10px;
 }
-.modal-title {
-  text-align: center;
-  font-size: 28px;
-  margin-top: 20px;
+
+/* Modal 1 */
+.section-image-projet {
+  margin: 0;
 }
+
 .js-modal-close {
   border: none;
   background-color: #fff;
@@ -443,6 +444,12 @@ footer {
   cursor: pointer;
   font-size: 1.5em;
 }
+.modal-title {
+  text-align: center;
+  font-size: 28px;
+  margin-top: 20px;
+}
+
 .modif-gallery {
   margin: 50px;
 }
