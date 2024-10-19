@@ -434,18 +434,27 @@ footer {
 .section-image-projet {
   margin: 0;
 }
-
-.js-modal-close {
-  border: none;
-  background-color: #fff;
+.header-modal-1 {
+  position: relative;
   display: flex;
   width: 100%;
-  flex-direction: row-reverse;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+.js-modal-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: none;
+  background-color: #fff;
   cursor: pointer;
+  margin-top: 0px;
   font-size: 1.5em;
 }
 .modal-title {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
   font-size: 28px;
   margin-top: 20px;
 }
@@ -463,12 +472,11 @@ footer {
 .img-modal {
   width: 90%;
 }
-#delete-Btn {
+.delete-Btn {
   position: absolute;
-  z-index: 1;
   background-color: black;
 }
-#delete-icon {
+.delete-icon {
   color: #fff;
 }
 #modal-line {
@@ -486,12 +494,27 @@ footer {
   align-items: center;
   width: 20em;
 }
-.ajout-photo {
+
+/* modal 2 */
+.header-modal-2 {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+.js-modal-back {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+  margin-top: 0px;
+  font-size: 1.5em;
+}
+.section-ajout-projet {
+  margin: 0;
 }
 #container {
   display: flex;

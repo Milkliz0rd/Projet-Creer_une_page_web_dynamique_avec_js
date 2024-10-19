@@ -1,4 +1,4 @@
-import { openModal, ModalGalleryPhoto } from "./modal.js";
+import { openModal, ModalGalleryPhoto, modalAjoutPhoto } from "./modal.js";
 
 const currentPageBtn = document.querySelector("#projet-page");
 currentPageBtn.classList.add("active-nav-page");

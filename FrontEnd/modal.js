@@ -11,7 +11,7 @@ export function openModal(event) {
   target.setAttribute("aria-modal", "true");
   modal = target;
   modal.addEventListener("click", closeModal);
-  modal.querySelector(".js-modal-close").addEventListener("click", closeModal);
+  // modal.querySelector(".js-modal-close").addEventListener("click", closeModal);
   modal
     .querySelector(".js-modal-stop")
     .addEventListener("click", stopPropagation);
@@ -24,9 +24,9 @@ function closeModal(event) {
   modal.setAttribute("aria-hidden", "true");
   modal.removeAttribute("aria-modal");
   modal.removeEventListener("click", closeModal);
-  modal
-    .querySelector(".js-modal-close")
-    .removeEventListener("click", closeModal);
+  // modal
+  //   .querySelectorAll(".js-modal-close")
+  //   .removeEventListener("click", closeModal);
   modal
     .querySelector(".js-modal-stop")
     .removeEventListener("click", stopPropagation);
@@ -53,6 +53,9 @@ export function ModalGalleryPhoto() {
   modal1Title.classList.add("modal-title");
   modal1Title.innerText = "Gallerie photo";
 
+  //listener du bouton close
+  closingModalBtn.addEventListener("click", closeModal);
+
   // ajout des éléments aux parents
   closingModalBtn.appendChild(closingModalLogo);
   headermodal1.appendChild(closingModalBtn);
@@ -75,11 +78,10 @@ export function ModalGalleryPhoto() {
     projetElementsModal.appendChild(imageElements);
 
     const deleteButton = document.createElement("button");
-    deleteButton.setAttribute("id", "delete-Btn");
+    deleteButton.classList.add("delete-Btn");
 
     const deleteIcon = document.createElement("i");
-    deleteIcon.classList.add("fa-regular", "fa-trash-can");
-    deleteIcon.setAttribute("id", "delete-icon");
+    deleteIcon.classList.add("fa-regular", "fa-trash-can", "delete-icon");
     deleteButton.appendChild(deleteIcon);
 
     projetElementsModal.appendChild(deleteButton);
@@ -131,7 +133,51 @@ export function ModalGalleryPhoto() {
 
   //listener sur le changement de page de modal
   switchPageBtn.addEventListener("click", () => {
+    const sectionAjoutProjet = document.querySelector(".section-ajout-projet");
+    sectionAjoutProjet.classList.remove("hidden");
     sectionImageModal.classList.add("hidden");
-    modalAjoutPhoto();
   });
 }
+
+export function modalAjoutPhoto() {
+  // élément du dom de la modal 1
+  const sectionAjoutProjet = document.querySelector(".section-ajout-projet");
+  const headermodal2 = document.querySelector(".header-modal-2");
+
+  //Création du bouton retour à la section Modal 1
+  const backBtn = document.createElement("button");
+  backBtn.classList.add("js-modal-back");
+  //logo du bouton
+  const backBtnLogo = document.createElement("i");
+  backBtnLogo.classList.add("fa-solid", "fa-arrow-left");
+  //création du bouton qui fermera la modal
+  const closingModalBtn = document.createElement("button");
+  closingModalBtn.classList.add("js-modal-close");
+  // ajout du logo "croix" qui fermera la modal
+  const closingModalLogo = document.createElement("i");
+  closingModalLogo.classList.add("fa-solid", "fa-xmark");
+  // ajout du titre de la modal
+  const modal2Title = document.createElement("h3");
+  modal2Title.classList.add("modal-title");
+  modal2Title.innerText = "Ajout Photo";
+
+  // ajout des éléments aux parents
+  backBtn.appendChild(backBtnLogo);
+  closingModalBtn.appendChild(closingModalLogo);
+  headermodal2.appendChild(backBtn);
+  headermodal2.appendChild(closingModalBtn);
+  headermodal2.appendChild(modal2Title);
+
+  // listener du bouton retour
+  backBtn.addEventListener("click", () => {
+    const sectionImageModal = document.querySelector(".section-image-projet");
+    sectionImageModal.classList.remove("hidden");
+    sectionAjoutProjet.classList.add("hidden");
+  });
+
+  //listener du bouton close
+  closingModalBtn.addEventListener("click", closeModal);
+
+  // crétation de la partie formulaire
+}
+modalAjoutPhoto();
