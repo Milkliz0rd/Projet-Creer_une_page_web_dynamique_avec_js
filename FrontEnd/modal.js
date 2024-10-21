@@ -143,6 +143,9 @@ export function modalAjoutPhoto() {
   // élément du dom de la modal 1
   const sectionAjoutProjet = document.querySelector(".section-ajout-projet");
   const headermodal2 = document.querySelector(".header-modal-2");
+  const formModal = document.querySelector(".form-modal-2");
+  projet.forEach((p) => {
+  const category = projet.category.name;
 
   //Création du bouton retour à la section Modal 1
   const backBtn = document.createElement("button");
@@ -179,5 +182,65 @@ export function modalAjoutPhoto() {
   closingModalBtn.addEventListener("click", closeModal);
 
   // crétation de la partie formulaire
+
+  //form
+  const formAjoutProjet = document.createElement("form");
+  formAjoutProjet.id = "form-ajout-projet";
+  formAjoutProjet.action = "#";
+  formAjoutProjet.method = "post";
+  formAjoutProjet.name = "form-ajout-projet";
+
+  //input d'ajout de photo du form
+  const containerForm = document.querySelector(".container");
+  //logo
+  const logoPicture = document.createElement("i");
+  logoPicture.classList.add("fa-regular", "fa-image");
+  logoPicture.setAttribute("id", "logo-picture");
+  //boutton d'ajout de fichier
+  const addPictureBtn = document.createElement("button");
+  addPictureBtn.classList.add("add-picture-btn");
+  //création de l'input
+  const addPictureInput = document.createElement("input");
+  addPictureInput.type = "file";
+  addPictureInput.accept = "image/png, image/jpeg";
+  addPictureInput.name = "add-picture";
+  addPictureInput.id = "add-picture-input";
+  // création du label
+  const addPictureInputLabel = document.createElement("label");
+  addPictureInputLabel.name = "add-picture";
+  addPictureInputLabel.id = "add-picture-input-label";
+  addPictureInputLabel.innerText = "+ Ajouter Photo";
+  // création du text d'avertissment
+  const infoSizeFile = document.createElement("p");
+  infoSizeFile.innerText = "jpg, png : 4mo max";
+
+  // eventListener pour que la taille du fichier fasse 4mo max
+
+  // input d'ajout de titre des photos
+  const addTitlePictureLabel = document.createElement("label");
+  addTitlePictureLabel.name = "title-picture";
+  addTitlePictureLabel.innerText = "titre";
+  const addTitlePictureInput = document.createElement("input");
+  addTitlePictureInput.name = "title-picture";
+  addTitlePictureInput.type = "text";
+
+  // input avec choix de catégorie de projet
+  const addCategoryPictureLabel = document.createElement("label");
+  addCategoryPictureLabel.name = "category-picture";
+  addCategoryPictureLabel.innerText = "Catégorie";
+  const addCategoryPictureInput = document.createElement("select");
+  addCategoryPictureInput.name = "category-picture";
+  addCategoryPictureInput.options = category;
+
+  formModal.appendChild(formAjoutProjet);
+  formAjoutProjet.appendChild(containerForm);
+  addPictureBtn.appendChild(addPictureInputLabel);
+  addPictureBtn.appendChild(addPictureInput);
+  containerForm.appendChild(logoPicture);
+  containerForm.appendChild(addPictureBtn);
+  containerForm.appendChild(infoSizeFile);
+  formAjoutProjet.appendChild(addTitlePictureLabel);
+  formAjoutProjet.appendChild(addTitlePictureInput);
+  
 }
 modalAjoutPhoto();
