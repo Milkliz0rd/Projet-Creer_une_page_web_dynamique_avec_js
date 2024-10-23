@@ -179,11 +179,12 @@ export function modalAjoutPhoto() {
     const sectionImageModal = document.querySelector(".section-image-projet");
     sectionImageModal.classList.remove("hidden");
     sectionAjoutProjet.classList.add("hidden");
+    resetForm();
   });
 
   //listener du bouton close
   closingModalBtn.addEventListener("click", closeModal);
-
+  closingModalBtn.addEventListener("click", resetForm);
   // crétation de la partie formulaire
 
   //form
@@ -208,6 +209,12 @@ export function modalAjoutPhoto() {
   addPictureInput.accept = "image/png, image/jpeg";
   addPictureInput.name = "add-picture";
   addPictureInput.id = "add-picture-input";
+  addPictureInput.addEventListener("change", formFull);
+  // création du preview
+  const imagePreview = document.createElement("img");
+  imagePreview.id = "image-preview";
+  imagePreview.alt = "Aperçu de l'image";
+  imagePreview.style.display = "none";
   // création du label
   const addPictureInputLabel = document.createElement("label");
   addPictureInputLabel.id = "add-picture-input-label";
@@ -216,26 +223,58 @@ export function modalAjoutPhoto() {
   const infoSizeFile = document.createElement("p");
   infoSizeFile.innerText = "jpg, png : 4mo max";
 
+  //creation du listenner de l'ajout photo
+  addPictureInput.addEventListener("change", (e) => {
+    const picture = e.target.files[0];
+    const validType = ["image/jpeg", "image/png"];
+    if (!validType.includes(picture.type)) {
+      alert("Seules les images PNG et JPEG sont acceptées.");
+      return;
+    }
+    if (picture.size > 4 * 1024 * 1024) {
+      alert("Le fichier doit faire moins de 4 Mo.");
+      return;
+    }
+    // addPictureInputLabel.style.display = "none";
+    addPictureBtn.style.display = "none";
+    logoPicture.style.display = "none";
+    infoSizeFile.style.display = "none";
+    containerForm.style.padding = "0px";
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      imagePreview.src = e.target.result;
+      imagePreview.style.display = "block";
+    };
+    reader.readAsDataURL(picture);
+  });
+
   // input d'ajout de titre des photos
   const addTitlePictureLabel = document.createElement("label");
-  addTitlePictureLabel.name = "title-picture";
   addTitlePictureLabel.innerText = "Titre";
   const addTitlePictureInput = document.createElement("input");
   addTitlePictureInput.name = "title-picture";
   addTitlePictureInput.type = "text";
+  addTitlePictureInput.addEventListener("input", formFull);
 
   // input avec choix de catégorie de projet
   const addCategoryPictureLabel = document.createElement("label");
-  addCategoryPictureLabel.name = "category-picture";
   addCategoryPictureLabel.innerText = "Catégorie";
   const addCategoryPictureInput = document.createElement("select");
   addCategoryPictureInput.name = "category-picture";
-  addCategoryPictureInput.innerText = "";
+  const defaultOption = document.createElement("option");
+  defaultOption.id = "default-option";
+  defaultOption.value = "";
+  defaultOption.selected = true;
+  defaultOption.disabled = true;
+  addCategoryPictureInput.appendChild(defaultOption);
   categoriesSet.forEach((category) => {
     const options = document.createElement("option");
+    options.setAttribute("id", "generate-options");
     options.innerText = category;
     addCategoryPictureInput.appendChild(options);
   });
+  addCategoryPictureInput.addEventListener("change", formFull);
 
   // partie modal-line
   const modalLine = document.createElement("p");
@@ -246,12 +285,60 @@ export function modalAjoutPhoto() {
   submitFormBtn.id = "submit-form-btn";
   submitFormBtn.type = "submit";
   submitFormBtn.innerText = "Valider";
+  submitFormBtn.disabled = "true";
+
+  // envoie du projet à l'api
+  submitFormBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const pictureSubmit = document.querySelector("[name=add-picture]").files[0];
+    const titleSubmit = document.querySelector("[name=title-picture]").value;
+    const categorySubmit = document.querySelector(
+      "[name=category-picture]"
+    ).value;
+
+    const formData = new FormData();
+    const token = window.localStorage.getItem("token");
+
+    // Vérification des données
+    console.log("Image:", pictureSubmit);
+    console.log("Titre:", titleSubmit);
+    console.log("Catégorie (ID):", categorySubmit);
+
+    formData.append("image", pictureSubmit); // Utilise la bonne clé pour l'image
+    formData.append("title", titleSubmit);
+    formData.append("category", categorySubmit); // Vérifie si c'est bien un ID
+
+    await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      body: formData,
+      headers: {
+        accept: "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((reponse) => {
+        if (!reponse.ok) {
+          return reponse.json().then((error) => {
+            console.log("Erreur serveur:", error);
+            throw new Error("Erreur lors de l'envoi: " + JSON.stringify(error));
+          });
+        }
+        return reponse.json();
+      })
+      .then((data) => {
+        alert("Succès", data);
+      })
+      .catch((error) => {
+        alert("Erreur", error);
+      });
+  });
 
   // ajout des élements aux parents
   formModal.appendChild(formAjoutProjet);
   formAjoutProjet.appendChild(containerForm);
   addPictureBtn.appendChild(addPictureInputLabel);
   addPictureBtn.appendChild(addPictureInput);
+  containerForm.appendChild(imagePreview);
   containerForm.appendChild(logoPicture);
   containerForm.appendChild(addPictureBtn);
   containerForm.appendChild(infoSizeFile);
@@ -261,6 +348,50 @@ export function modalAjoutPhoto() {
   formAjoutProjet.appendChild(addCategoryPictureInput);
   formAjoutProjet.appendChild(modalLine);
   formAjoutProjet.appendChild(submitFormBtn);
+}
+
+function formFull() {
+  const pictureSubmit = document.querySelector("[name=add-picture]").files[0];
+  const titleSubmit = document.querySelector("[name=title-picture]").value;
+  const categorySubmit = document.querySelector(
+    "[name=category-picture]"
+  ).value;
+  const submitFormBtn = document.querySelector("#submit-form-btn");
+  if (pictureSubmit && titleSubmit && categorySubmit) {
+    submitFormBtn.style.backgroundColor = "#1d6154";
+    submitFormBtn.style.transition = "0.3s";
+    submitFormBtn.disabled = false;
+  }
+}
+
+function resetForm() {
+  // Sélectionne le formulaire
+  const formAjoutProjet = document.getElementById("form-ajout-projet");
+
+  // Réinitialise le formulaire (tous les inputs seront vidés)
+
+  formAjoutProjet.reset();
+  // Supprimer l'aperçu de l'image et réafficher les éléments du formulaire
+  const imagePreview = document.getElementById("image-preview");
+  const container = document.getElementById("container");
+  const addPictureBtn = document.querySelector(".add-picture-btn");
+  const logoPicture = document.getElementById("logo-picture");
+  const infoSizeFile = document.querySelector("#container p");
+
+  // Masquer l'aperçu de l'image
+  imagePreview.style.display = "none";
+  imagePreview.src = "";
+
+  // Réafficher les éléments masqués après le choix de l'image
+  addPictureBtn.style.display = "block";
+  container.style.padding = "20px";
+  logoPicture.style.display = "block";
+  infoSizeFile.style.display = "block";
+
+  // Remettre la couleur du bouton de soumission à son état initial
+  const submitFormBtn = document.getElementById("submit-form-btn");
+  submitFormBtn.style.backgroundColor = "#ccc"; // ou toute autre couleur par défaut
+  submitFormBtn.disabled = true;
 }
 
 modalAjoutPhoto();

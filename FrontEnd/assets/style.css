@@ -146,7 +146,7 @@ body {
   background-color: black;
   z-index: 999;
   width: 100%;
-  max-height: calc(100vh - 20px);
+  height: 4em;
 }
 .header-edition-mode {
   margin: 90px;
@@ -428,6 +428,7 @@ footer {
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
+  max-height: calc(100vh - 100px);
 }
 
 /* Modal 1 */
@@ -534,8 +535,8 @@ footer {
   background-color: #e8f1f6;
   width: 400px;
   margin-top: 25px;
-  height: 12em;
   border-radius: 5px;
+  padding: 20px;
 }
 
 #container p {
@@ -570,7 +571,16 @@ footer {
 #add-picture-input {
   z-index: 1;
   opacity: 0;
+  border-radius: 60px;
+  width: 173px;
+  height: 3em;
 }
+
+#image-preview {
+  width: 30%;
+  height: auto;
+}
+
 #form-ajout-projet label {
   margin: 2.5em 0 1em 0;
 }
@@ -579,14 +589,12 @@ footer {
 }
 input[name="title-picture"] {
   height: 3em;
-  font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
 select[name="category-picture"] {
   height: 3em;
-  font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
@@ -607,4 +615,14 @@ select[name="category-picture"] {
   text-align: center;
   border-radius: 60px;
   border: none;
+}
+
+.form-full {
+  background-color: #1d6154;
+  transition: 0.3ms;
+}
+@media (max-height: 820px) {
+  .edition-mode {
+    height: 3em;
+  }
 }
