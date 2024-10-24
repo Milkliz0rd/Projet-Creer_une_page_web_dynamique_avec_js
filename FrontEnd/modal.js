@@ -1,8 +1,12 @@
-let modal = null;
+// on récupère les objets déjà présent sur l'api
 const projet = await fetch("http://localhost:5678/api/works").then((response) =>
   response.json()
 );
 
+// on concidère que la modal est égale à null
+let modal = null;
+
+//on créé un fonction qui nous permettra d'ouvir la modal
 export function openModal(event) {
   event.preventDefault();
   const target = document.querySelector(event.target.getAttribute("href"));
@@ -11,12 +15,12 @@ export function openModal(event) {
   target.setAttribute("aria-modal", "true");
   modal = target;
   modal.addEventListener("click", closeModal);
-  // modal.querySelector(".js-modal-close").addEventListener("click", closeModal);
   modal
     .querySelector(".js-modal-stop")
     .addEventListener("click", stopPropagation);
 }
 
+// on créé une fonction qui nous permettra de fermer la modal
 function closeModal(event) {
   if (modal === null) return;
   event.preventDefault();
@@ -24,19 +28,18 @@ function closeModal(event) {
   modal.setAttribute("aria-hidden", "true");
   modal.removeAttribute("aria-modal");
   modal.removeEventListener("click", closeModal);
-  // modal
-  //   .querySelectorAll(".js-modal-close")
-  //   .removeEventListener("click", closeModal);
   modal
     .querySelector(".js-modal-stop")
     .removeEventListener("click", stopPropagation);
   modal = null;
 }
 
+// on créé une fonction qui empêche que quand on clique sur notre modal de la fermer
 function stopPropagation(e) {
   e.stopPropagation();
 }
 
+// On crée une fonction qui va gérer la première "page" de notre modal
 export function ModalGalleryPhoto() {
   // élément du dom de la modal 1
   const sectionImageModal = document.querySelector(".section-image-projet");
@@ -140,28 +143,25 @@ export function ModalGalleryPhoto() {
 }
 
 export function modalAjoutPhoto() {
-  // élément du dom de la modal 1
+  // élément du dom de la modal 2
   const sectionAjoutProjet = document.querySelector(".section-ajout-projet");
   const headermodal2 = document.querySelector(".header-modal-2");
   const formModal = document.querySelector(".form-modal-2");
-  const categoriesSet = new Set();
-  // pour chaque projet
-  projet.forEach((p) => {
-    // on les ajoute dans categoriesSet par leur nom de catégories
-    categoriesSet.add(p.category.name);
-  });
+
   //Création du bouton retour à la section Modal 1
   const backBtn = document.createElement("button");
   backBtn.classList.add("js-modal-back");
   //logo du bouton
   const backBtnLogo = document.createElement("i");
   backBtnLogo.classList.add("fa-solid", "fa-arrow-left");
+
   //création du bouton qui fermera la modal
   const closingModalBtn = document.createElement("button");
   closingModalBtn.classList.add("js-modal-close");
   // ajout du logo "croix" qui fermera la modal
   const closingModalLogo = document.createElement("i");
   closingModalLogo.classList.add("fa-solid", "fa-xmark");
+
   // ajout du titre de la modal
   const modal2Title = document.createElement("h3");
   modal2Title.classList.add("modal-title");
@@ -235,12 +235,14 @@ export function modalAjoutPhoto() {
       alert("Le fichier doit faire moins de 4 Mo.");
       return;
     }
-    // addPictureInputLabel.style.display = "none";
+
+    // on enlève les élements du container
     addPictureBtn.style.display = "none";
     logoPicture.style.display = "none";
     infoSizeFile.style.display = "none";
     containerForm.style.padding = "0px";
 
+    // on applique un préview de l'image qui l'on a ajouté grace à "FileReader" et "readAsDataUrl"
     const reader = new FileReader();
     reader.onload = function (e) {
       imagePreview.src = e.target.result;
@@ -262,18 +264,32 @@ export function modalAjoutPhoto() {
   addCategoryPictureLabel.innerText = "Catégorie";
   const addCategoryPictureInput = document.createElement("select");
   addCategoryPictureInput.name = "category-picture";
-  const defaultOption = document.createElement("option");
-  defaultOption.id = "default-option";
-  defaultOption.value = "";
-  defaultOption.selected = true;
-  defaultOption.disabled = true;
-  addCategoryPictureInput.appendChild(defaultOption);
-  categoriesSet.forEach((category) => {
-    const options = document.createElement("option");
-    options.setAttribute("id", "generate-options");
-    options.innerText = category;
-    addCategoryPictureInput.appendChild(options);
-  });
+  addCategoryPictureInput.setAttribute("id", "selectCategorie");
+  createCategorieSelect();
+
+  // on créé une fonction qui nous permet de créé des options dans notre input select
+  async function createCategorieSelect() {
+    const response = await fetch("http://localhost:5678/api/categories");
+    const categories = await response.json();
+
+    let select = document.getElementById("selectCategorie");
+
+    //création d'une option vide avec valeur spéciale "-1" qui sera par défaut
+    let option = document.createElement("option");
+    option.setAttribute("label", " ");
+    option.value = "-1";
+    select.appendChild(option);
+
+    //boucle "for...of" pour récupérer les id de chaque catégorie et les intégrer aux options du select
+    for (const category of categories) {
+      let option = document.createElement("option");
+      option.innerText = category.name;
+      option.value = category.id;
+      select.appendChild(option);
+    }
+  }
+
+  //listener qui fait appel à la fonction formFull une fois l'input validé
   addCategoryPictureInput.addEventListener("change", formFull);
 
   // partie modal-line
@@ -287,53 +303,149 @@ export function modalAjoutPhoto() {
   submitFormBtn.innerText = "Valider";
   submitFormBtn.disabled = "true";
 
-  // envoie du projet à l'api
+  // Fonction pour ajouter dynamiquement un nouveau projet à la galerie et à la modal
+  function addProjectToGallery(project) {
+    // Section Gallerie
+    const gallerySection = document.querySelector(".gallery");
+
+    //on créé la figure
+    const projectElement = document.createElement("figure");
+    projectElement.classList.add("projet-element-gallery");
+    projectElement.setAttribute("id", "projet-element-gallery-" + project.id);
+
+    // on crée l'image
+    const img = document.createElement("img");
+    img.src = project.imageUrl;
+    img.alt = project.title;
+
+    // on créé la légende
+    const figcaption = document.createElement("figcaption");
+    figcaption.innerText = project.title;
+
+    // on rattache les éléments aux parents
+    projectElement.appendChild(img);
+    projectElement.appendChild(figcaption);
+    gallerySection.appendChild(projectElement);
+
+    // section modal
+    const modalGallery = document.querySelector(".modif-gallery");
+
+    //on créé la figure
+    const modalProjectElement = document.createElement("figure");
+    modalProjectElement.classList.add("projet-element-modal");
+    modalProjectElement.setAttribute(
+      "id",
+      "projet-element-modal-" + project.id
+    );
+
+    // on créé l'image
+    const modalImg = document.createElement("img");
+    modalImg.src = project.imageUrl;
+    modalImg.alt = project.title;
+    modalImg.classList.add("img-modal");
+
+    // on créé le bouton delete
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add("delete-Btn");
+    const deleteIcon = document.createElement("i");
+    deleteIcon.classList.add("fa-regular", "fa-trash-can", "delete-icon");
+    deleteButton.appendChild(deleteIcon);
+
+    // Ajout de l'événement de suppression pour le nouveau projet dans la modale
+    deleteButton.addEventListener("click", async () => {
+      const id = project.id;
+      if (window.confirm("Souhaitez-vous supprimer cet élément ?")) {
+        try {
+          const token = window.localStorage.getItem("token");
+          const response = await fetch(
+            "http://localhost:5678/api/works/" + id,
+            {
+              headers: {
+                Accept: "application/json",
+                Authorization: "Bearer " + token,
+              },
+              method: "DELETE",
+            }
+          );
+          if (response.status === 200 || response.status === 204) {
+            // Suppression des éléments du DOM
+            modalProjectElement.remove();
+            projectElement.remove();
+          }
+        } catch (error) {
+          console.error("Erreur lors de la suppression du projet :", error);
+        }
+      }
+    });
+
+    // on rattache les éléments aux parents
+    modalProjectElement.appendChild(modalImg);
+    modalProjectElement.appendChild(deleteButton);
+    modalGallery.appendChild(modalProjectElement);
+  }
+
+  // ajout des éléments du formulaire sur l'api et ajout en temps réél sur la page
+
+  // listener du bouton submit
   submitFormBtn.addEventListener("click", async (e) => {
+    // arrêt du comportement par défaut
     e.preventDefault();
+    // recherche des valeurs/fichiers des inputs du formulaire
     const pictureSubmit = document.querySelector("[name=add-picture]").files[0];
     const titleSubmit = document.querySelector("[name=title-picture]").value;
     const categorySubmit = document.querySelector(
       "[name=category-picture]"
     ).value;
 
+    // création d'un nouveau FormData
     const formData = new FormData();
+
+    //Récupération du token pour l'autorisation
     const token = window.localStorage.getItem("token");
 
-    // Vérification des données
-    console.log("Image:", pictureSubmit);
-    console.log("Titre:", titleSubmit);
-    console.log("Catégorie (ID):", categorySubmit);
-
-    formData.append("image", pictureSubmit); // Utilise la bonne clé pour l'image
+    // on rattache nos valeurs d'input à formData en ajoutant un clé à chacun
+    formData.append("image", pictureSubmit);
     formData.append("title", titleSubmit);
-    formData.append("category", categorySubmit); // Vérifie si c'est bien un ID
+    formData.append("category", categorySubmit);
 
-    await fetch("http://localhost:5678/api/works", {
-      method: "POST",
-      body: formData,
-      headers: {
-        accept: "application/json",
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((reponse) => {
-        if (!reponse.ok) {
-          return reponse.json().then((error) => {
-            console.log("Erreur serveur:", error);
-            throw new Error("Erreur lors de l'envoi: " + JSON.stringify(error));
-          });
-        }
-        return reponse.json();
-      })
-      .then((data) => {
-        alert("Succès", data);
-      })
-      .catch((error) => {
-        alert("Erreur", error);
+    // on créé une variable réponse qui sera une requête http "post"
+    try {
+      const response = await fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        body: formData,
+        headers: {
+          accept: "application/json",
+          Authorization: "Bearer " + token,
+        },
       });
+
+      // Condition de si "response" est différents de ce que l'on attend
+      if (!response.ok) {
+        const error = await response.json();
+        console.log("Erreur serveur:", error);
+        throw new Error("Erreur lors de l'envoi: " + JSON.stringify(error));
+      }
+
+      // Création de la variable qui sera l'ajout du nouveau projet
+      const newProject = await response.json();
+      alert("Projet ajouté avec succès!");
+
+      // Appel de la fonction pour ajouter le nouveau projet à la galerie de la page principal et de la modale en temps réel
+      addProjectToGallery(newProject);
+
+      // Fermer la modale après l'ajout
+      const modal = document.querySelector(".modal");
+      const modalWrapper = document.querySelector(".modal-wrapper");
+      modal.style.display = "none";
+      modalWrapper.style.display = "none";
+
+      // En cas d'erreur lors de l'ajout de projet
+    } catch (error) {
+      alert("Erreur lors de l'ajout du projet:", error);
+    }
   });
 
-  // ajout des élements aux parents
+  // On rattache les élements aux parents
   formModal.appendChild(formAjoutProjet);
   formAjoutProjet.appendChild(containerForm);
   addPictureBtn.appendChild(addPictureInputLabel);
@@ -350,6 +462,7 @@ export function modalAjoutPhoto() {
   formAjoutProjet.appendChild(submitFormBtn);
 }
 
+// fonction lorque le formulaire est complètement pour le valider
 function formFull() {
   const pictureSubmit = document.querySelector("[name=add-picture]").files[0];
   const titleSubmit = document.querySelector("[name=title-picture]").value;
@@ -364,13 +477,14 @@ function formFull() {
   }
 }
 
+// fonction qui reset le formulaire
 function resetForm() {
   // Sélectionne le formulaire
   const formAjoutProjet = document.getElementById("form-ajout-projet");
 
   // Réinitialise le formulaire (tous les inputs seront vidés)
-
   formAjoutProjet.reset();
+
   // Supprimer l'aperçu de l'image et réafficher les éléments du formulaire
   const imagePreview = document.getElementById("image-preview");
   const container = document.getElementById("container");
@@ -390,8 +504,9 @@ function resetForm() {
 
   // Remettre la couleur du bouton de soumission à son état initial
   const submitFormBtn = document.getElementById("submit-form-btn");
-  submitFormBtn.style.backgroundColor = "#ccc"; // ou toute autre couleur par défaut
+  submitFormBtn.style.backgroundColor = "#ccc";
   submitFormBtn.disabled = true;
 }
 
+// on appel la fonction qui affiche la deuxième "page" de la modal
 modalAjoutPhoto();

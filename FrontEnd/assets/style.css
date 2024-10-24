@@ -429,6 +429,7 @@ footer {
   padding: 20px;
   border-radius: 10px;
   max-height: calc(100vh - 100px);
+  overflow: auto;
 }
 
 /* Modal 1 */

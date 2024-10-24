@@ -1,5 +1,6 @@
-import { openModal, ModalGalleryPhoto, modalAjoutPhoto } from "./modal.js";
+import { openModal, ModalGalleryPhoto } from "./modal.js";
 
+// On applique une class au btn de nav qui correspond à la page où nous sommes
 const currentPageBtn = document.querySelector("#projet-page");
 currentPageBtn.classList.add("active-nav-page");
 
@@ -28,6 +29,7 @@ function genererProjet(projets) {
     // Création des balises dédiée a un projet
     const projetElementsGallery = document.createElement("figure");
     projetElementsGallery.classList.add("projet-element-gallery");
+    projetElementsGallery.setAttribute("id", "projet-element-gallery-" + p.id);
     // Création des images des projets
     const imgElement = document.createElement("img");
     // on récupère les images sur l'api
@@ -100,14 +102,18 @@ navBtn.forEach((button) => {
     this.classList.add("active");
   });
 });
-//------------------------------------------------------------------------------
+//---------------------page modifiée une fois connecté------------------------------
+
+//On selectionnes les élements du dom qui nous interesse
 const loginBtn = document.querySelector("#login-page");
 const logOutBtn = document.querySelector("#logout-page");
 const logoModal = document.querySelector("#logo-modal");
 const editionMode = document.querySelector(".edition-mode");
 const titleNav = document.querySelector("header");
 
+//On crée une fonction qui, quand nous avons le token, une class css est ajoutée/supprimée à certains éléments du dom
 function ckeckUserAuthentification() {
+  // on stock le token d'accée à la page admin
   const token = localStorage.getItem("token");
   if (token) {
     loginBtn.classList.add("hidden");
@@ -115,6 +121,7 @@ function ckeckUserAuthentification() {
     titleNav.classList.add("header-edition-mode");
     logoModal.classList.remove("hidden");
     logOutBtn.classList.remove("hidden");
+    //Par contre quand nous sommes déconnecté, une class css est ajoutée/supprimée à certains éléments du dom
   } else {
     logOutBtn.classList.add("hidden");
     logoModal.classList.add("hidden");
@@ -129,18 +136,24 @@ function ckeckUserAuthentification() {
 ckeckUserAuthentification();
 
 //------------------------------ log-out ---------------------------------------
+
+//function qui nous déconnecte et supprime le token
 function logOutUser() {
   localStorage.removeItem("token");
   alert("Vous êtes déconnecté");
   ckeckUserAuthentification();
 }
 
+//listener sur le btn log out pour appélé la fonction logOutUser
 logOutBtn.addEventListener("click", logOutUser);
 
 //------------------------------- modale ---------------------------------------
 
+//On récupère tous les élements du dom qui ont la class js-modal.
 document.querySelectorAll(".js-modal").forEach((a) => {
+  //si elles ont l'objet "a", alors on leur met un listener
   a.addEventListener("click", openModal);
 });
 
+// on appel la fonction ModalGalleryPhoto
 ModalGalleryPhoto();
