@@ -428,7 +428,6 @@ footer {
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
-  max-height: calc(100vh - 100px);
   overflow: auto;
 }
 
@@ -625,5 +624,41 @@ select[name="category-picture"] {
 @media (max-height: 820px) {
   .edition-mode {
     height: 3em;
+  }
+  #login {
+    margin-top: 10px;
+  }
+
+  .modal-wrapper {
+    max-height: calc(100vh - 100px);
+  }
+
+  .figure-modal {
+    row-gap: 10px;
+  }
+
+  .header-modal-1 {
+    margin-top: 0;
+  }
+
+  .modif-gallery {
+    margin: 38px;
+  }
+
+  .header-modal-2 {
+    margin-top: 10px;
+    margin-bottom: 0px;
+  }
+
+  #form-ajout-projet label {
+    margin: 1.5em 0 1em 0;
+  }
+
+  #modal2-line {
+    margin: 2.5em 0 2em 0;
+  }
+
+  #form-ajout-projet {
+    margin: 9px;
   }
 }
