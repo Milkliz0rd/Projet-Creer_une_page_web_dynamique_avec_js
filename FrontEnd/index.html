@@ -17,18 +17,19 @@
 
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
-    <script src="/FrontEnd/projet.js" type="module" defer></script>
+    <script src="/FrontEnd/projet.js" type="module"></script>
   </head>
   <body>
     <div id="header-main">
       <header>
         <div class="edition-mode">
-          <p id="logo-mode-edition">
-            <i class="fa-regular fa-pen-to-square" id="logo-mode-edition"></i>
+          <p class="logo-mode-edition">
+            <i class="fa-regular fa-pen-to-square logo-mode-edition"></i>
             Mode édition
           </p>
         </div>
-        <section class="title-nav">
+        <div>
+          class="title-nav">
           <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
           <nav>
             <ul>
@@ -43,10 +44,11 @@
               </li>
             </ul>
           </nav>
-        </section>
+        </div>
       </header>
       <main>
-        <section id="introduction">
+        <div>
+          id="introduction">
           <figure>
             <img src="./assets/images/sophie-bluel.png" alt="" />
           </figure>
@@ -68,8 +70,9 @@
               constituée : architecte DPLG, décorateur(trice)
             </p>
           </article>
-        </section>
-        <section id="portfolio">
+        </div>
+        <div>
+          id="portfolio">
           <div class="title-portfolio">
             <h2>Mes Projets</h2>
             <p id="logo-modal">
@@ -80,27 +83,28 @@
               id="modal1"
               class="modal"
               aria-hidden="true"
-              role="dialog"
-              aria-labelledby="modal-title"
               style="display: none"
             >
               <div class="modal-wrapper js-modal-stop">
-                <section class="section-image-projet">
+                <div>
+                  class="section-image-projet">
                   <div class="header-modal-1"></div>
                   <div class="modif-gallery"></div>
-                </section>
-                <section class="section-ajout-projet hidden">
+                </div>
+                <div>
+                  class="section-ajout-projet hidden">
                   <div class="header-modal-2"></div>
                   <div class="form-modal-2"></div>
                   <div id="container"></div>
-                </section>
+                </div>
               </div>
             </aside>
           </div>
           <nav class="category-menu"></nav>
           <div class="gallery"></div>
-        </section>
-        <section id="contact">
+        </div>
+        <div>
+          id="contact">
           <h2>Contact</h2>
           <p>Vous avez un projet ? Discutons-en !</p>
           <form action="#" method="post">
@@ -117,7 +121,7 @@
             ></textarea>
             <input type="submit" value="Envoyer" />
           </form>
-        </section>
+        </div>
       </main>
     </div>
 

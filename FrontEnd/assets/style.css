@@ -151,7 +151,7 @@ body {
 .header-edition-mode {
   margin: 90px;
 }
-#logo-mode-edition {
+.logo-mode-edition {
   color: white;
   text-align: center;
   margin: 0.5em;
@@ -558,6 +558,7 @@ footer {
   height: 3em;
   border: none;
   background-color: #cfd5d9;
+  cursor: pointer;
 }
 #add-picture-input-label {
   color: rgb(101 101 149);
@@ -567,10 +568,11 @@ footer {
   z-index: 0;
   left: 30px;
   bottom: -6px;
+  cursor: pointer;
 }
 #add-picture-input {
   z-index: 1;
-  opacity: 0;
+  display: none;
   border-radius: 60px;
   width: 173px;
   height: 3em;

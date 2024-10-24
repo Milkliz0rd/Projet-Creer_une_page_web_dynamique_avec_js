@@ -94,9 +94,8 @@ export function ModalGalleryPhoto() {
     deleteButton.addEventListener("click", async () => {
       const id = p.id;
       const projetElementsGallery = document.querySelector(
-        ".projet-element-gallery"
+        `#projet-element-gallery-${id}`
       );
-      projetElementsGallery.setAttribute("id", "projet-element-gallery-" + id);
       if (window.confirm("Souhaitez-vous supprimer cet élément ?")) {
         try {
           const token = window.localStorage.getItem("token");
@@ -105,7 +104,7 @@ export function ModalGalleryPhoto() {
             {
               headers: {
                 Accept: "application/json",
-                Authorization: "Bearer " + token,
+                Authorization: `Bearer ${token}`,
               },
               method: "DELETE",
             }
@@ -201,7 +200,7 @@ export function modalAjoutPhoto() {
   logoPicture.classList.add("fa-regular", "fa-image");
   logoPicture.setAttribute("id", "logo-picture");
   //boutton d'ajout de fichier
-  const addPictureBtn = document.createElement("button");
+  const addPictureBtn = document.createElement("div");
   addPictureBtn.classList.add("add-picture-btn");
   //création de l'input
   const addPictureInput = document.createElement("input");
@@ -219,6 +218,7 @@ export function modalAjoutPhoto() {
   const addPictureInputLabel = document.createElement("label");
   addPictureInputLabel.id = "add-picture-input-label";
   addPictureInputLabel.innerText = "+ Ajouter Photo";
+  addPictureInputLabel.setAttribute("for", "add-picture-input");
   // création du text d'avertissment
   const infoSizeFile = document.createElement("p");
   infoSizeFile.innerText = "jpg, png : 4mo max";
@@ -327,61 +327,61 @@ export function modalAjoutPhoto() {
     projectElement.appendChild(figcaption);
     gallerySection.appendChild(projectElement);
 
-    // section modal
-    const modalGallery = document.querySelector(".modif-gallery");
+    // // section modal
+    // const modalGallery = document.querySelector(".modif-gallery");
 
-    //on créé la figure
-    const modalProjectElement = document.createElement("figure");
-    modalProjectElement.classList.add("projet-element-modal");
-    modalProjectElement.setAttribute(
-      "id",
-      "projet-element-modal-" + project.id
-    );
+    // //on créé la figure
+    // const modalProjectElement = document.createElement("figure");
+    // modalProjectElement.classList.add("projet-element-modal");
+    // modalProjectElement.setAttribute(
+    //   "id",
+    //   "projet-element-modal-" + project.id
+    // );
 
-    // on créé l'image
-    const modalImg = document.createElement("img");
-    modalImg.src = project.imageUrl;
-    modalImg.alt = project.title;
-    modalImg.classList.add("img-modal");
+    // // on créé l'image
+    // const modalImg = document.createElement("img");
+    // modalImg.src = project.imageUrl;
+    // modalImg.alt = project.title;
+    // modalImg.classList.add("img-modal");
 
-    // on créé le bouton delete
-    const deleteButton = document.createElement("button");
-    deleteButton.classList.add("delete-Btn");
-    const deleteIcon = document.createElement("i");
-    deleteIcon.classList.add("fa-regular", "fa-trash-can", "delete-icon");
-    deleteButton.appendChild(deleteIcon);
+    // // on créé le bouton delete
+    // const deleteButton = document.createElement("button");
+    // deleteButton.classList.add("delete-Btn");
+    // const deleteIcon = document.createElement("i");
+    // deleteIcon.classList.add("fa-regular", "fa-trash-can", "delete-icon");
+    // deleteButton.appendChild(deleteIcon);
 
-    // Ajout de l'événement de suppression pour le nouveau projet dans la modale
-    deleteButton.addEventListener("click", async () => {
-      const id = project.id;
-      if (window.confirm("Souhaitez-vous supprimer cet élément ?")) {
-        try {
-          const token = window.localStorage.getItem("token");
-          const response = await fetch(
-            "http://localhost:5678/api/works/" + id,
-            {
-              headers: {
-                Accept: "application/json",
-                Authorization: "Bearer " + token,
-              },
-              method: "DELETE",
-            }
-          );
-          if (response.status === 200 || response.status === 204) {
-            // Suppression des éléments du DOM
-            modalProjectElement.remove();
-            projectElement.remove();
-          }
-        } catch (error) {
-          console.error("Erreur lors de la suppression du projet :", error);
-        }
-      }
-    });
+    // // Ajout de l'événement de suppression pour le nouveau projet dans la modale
+    // deleteButton.addEventListener("click", async () => {
+    //   const id = project.id;
+    //   if (window.confirm("Souhaitez-vous supprimer cet élément ?")) {
+    //     try {
+    //       const token = window.localStorage.getItem("token");
+    //       const response = await fetch(
+    //         "http://localhost:5678/api/works/" + id,
+    //         {
+    //           headers: {
+    //             Accept: "application/json",
+    //             Authorization: "Bearer " + token,
+    //           },
+    //           method: "DELETE",
+    //         }
+    //       );
+    //       if (response.status === 200 || response.status === 204) {
+    //         // Suppression des éléments du DOM
+    //         modalProjectElement.remove();
+    //         projectElement.remove();
+    //       }
+    //     } catch (error) {
+    //       console.error("Erreur lors de la suppression du projet :", error);
+    //     }
+    //   }
+    // });
 
-    // on rattache les éléments aux parents
-    modalProjectElement.appendChild(modalImg);
-    modalProjectElement.appendChild(deleteButton);
-    modalGallery.appendChild(modalProjectElement);
+    // // on rattache les éléments aux parents
+    // modalProjectElement.appendChild(modalImg);
+    // modalProjectElement.appendChild(deleteButton);
+    // modalGallery.appendChild(modalProjectElement);
   }
 
   // ajout des éléments du formulaire sur l'api et ajout en temps réél sur la page
@@ -436,8 +436,8 @@ export function modalAjoutPhoto() {
       // Fermer la modale après l'ajout
       const modal = document.querySelector(".modal");
       const modalWrapper = document.querySelector(".modal-wrapper");
-      modal.style.display = "none";
-      modalWrapper.style.display = "none";
+      modal.style.visibilty = "hidden";
+      modalWrapper.style.visibilty = "hidden";
 
       // En cas d'erreur lors de l'ajout de projet
     } catch (error) {
@@ -470,6 +470,8 @@ function formFull() {
     "[name=category-picture]"
   ).value;
   const submitFormBtn = document.querySelector("#submit-form-btn");
+
+  // condtion pour rendre le bouton submit du formulaire utlisable
   if (pictureSubmit && titleSubmit && categorySubmit) {
     submitFormBtn.style.backgroundColor = "#1d6154";
     submitFormBtn.style.transition = "0.3s";
