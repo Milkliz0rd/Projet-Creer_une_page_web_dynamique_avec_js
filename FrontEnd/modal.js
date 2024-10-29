@@ -1,10 +1,27 @@
-// on récupère les objets déjà présent sur l'api
-const projet = await fetch("http://localhost:5678/api/works").then((response) =>
-  response.json()
-);
-
 // on concidère que la modal est égale à null
 let modal = null;
+
+// élément du dom de la modal 1
+const sectionImageModal = document.querySelector(".section-image-projet");
+const headermodal1 = document.querySelector(".header-modal-1");
+
+//création de la croix qui fermera la modal
+const closingModalBtn = document.createElement("button");
+closingModalBtn.classList.add("js-modal-close");
+// ajout du logo "croix" qui fermera la modal
+const closingModalLogo = document.createElement("i");
+closingModalLogo.classList.add("fa-solid", "fa-xmark");
+// ajout du titre de la modal
+const modal1Title = document.createElement("h3");
+modal1Title.classList.add("modal-title");
+modal1Title.innerText = "Gallerie photo";
+
+//listener du bouton close
+closingModalBtn.addEventListener("click", closeModal);
+// ajout des éléments aux parents
+closingModalBtn.appendChild(closingModalLogo);
+headermodal1.appendChild(closingModalBtn);
+headermodal1.appendChild(modal1Title);
 
 function switchModalView(view) {
   const sectionAjoutProjet = document.querySelector(".section-ajout-projet");
@@ -32,6 +49,7 @@ export function openModal(event) {
   modal
     .querySelector(".js-modal-stop")
     .addEventListener("click", stopPropagation);
+  ModalGalleryPhoto();
 }
 
 // on créé une fonction qui nous permettra de fermer la modal
@@ -55,27 +73,14 @@ function stopPropagation(e) {
 
 // On crée une fonction qui va gérer la première "page" de notre modal
 export function ModalGalleryPhoto() {
-  // élément du dom de la modal 1
-  const sectionImageModal = document.querySelector(".section-image-projet");
-  const headermodal1 = document.querySelector(".header-modal-1");
+  switchModalView("edit");
+}
 
-  //création de la croix qui fermera la modal
-  const closingModalBtn = document.createElement("button");
-  closingModalBtn.classList.add("js-modal-close");
-  // ajout du logo "croix" qui fermera la modal
-  const closingModalLogo = document.createElement("i");
-  closingModalLogo.classList.add("fa-solid", "fa-xmark");
-  // ajout du titre de la modal
-  const modal1Title = document.createElement("h3");
-  modal1Title.classList.add("modal-title");
-  modal1Title.innerText = "Gallerie photo";
-
-  //listener du bouton close
-  closingModalBtn.addEventListener("click", closeModal);
-  // ajout des éléments aux parents
-  closingModalBtn.appendChild(closingModalLogo);
-  headermodal1.appendChild(closingModalBtn);
-  headermodal1.appendChild(modal1Title);
+async function genererProjetModal() {
+  // on récupère les objets déjà présent sur l'api
+  const projet = await fetch("http://localhost:5678/api/works").then(
+    (response) => response.json()
+  );
 
   //partie de la gallery des images des projets
   const galleryModal = document.querySelector(".modif-gallery");
@@ -96,61 +101,61 @@ export function ModalGalleryPhoto() {
     const deleteButton = document.createElement("button");
     deleteButton.classList.add("delete-Btn");
 
+    deleteButton.addEventListener("click", removeItems);
+
     const deleteIcon = document.createElement("i");
     deleteIcon.classList.add("fa-regular", "fa-trash-can", "delete-icon");
     deleteButton.appendChild(deleteIcon);
 
     projetElementsModal.appendChild(deleteButton);
     galleryModal.appendChild(projetElementsModal);
-
-    // Ajout de l'événement de suppression
-    deleteButton.addEventListener("click", async () => {
-      const id = p.id;
-      const projetElementsGallery = document.querySelector(
-        `#projet-element-gallery-${id}`
-      );
-      if (window.confirm("Souhaitez-vous supprimer cet élément ?")) {
-        try {
-          const token = window.localStorage.getItem("token");
-          const response = await fetch(
-            "http://localhost:5678/api/works/" + id,
-            {
-              headers: {
-                Accept: "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              method: "DELETE",
-            }
-          );
-          if (response.status === 200 || response.status === 204) {
-            // Suppression des éléments du DOM
-            projetElementsModal.remove();
-            projetElementsGallery.remove();
-          }
-        } catch (error) {
-          console.error("Erreur lors de la suppression du projet :", error);
-        }
-      }
-    });
-  });
-
-  // partie modal-line
-  const modalLine = document.createElement("p");
-  modalLine.setAttribute("id", "modal-line");
-  sectionImageModal.appendChild(modalLine);
-
-  // partie changement de page
-  const switchPageBtn = document.createElement("button");
-  switchPageBtn.setAttribute("id", "switch-page-btn");
-  switchPageBtn.classList.add("btn-nav", "active");
-  switchPageBtn.innerText = "Ajouter une photo";
-  sectionImageModal.appendChild(switchPageBtn);
-
-  //listener sur le changement de page de modal
-  switchPageBtn.addEventListener("click", () => {
-    switchModalView("add");
   });
 }
+
+async function removeItems() {
+  const p = await fetch("http://localhost:5678/api/works").then((response) =>
+    response.json()
+  );
+  const id = p.id;
+  const projetElementsGallery = document.querySelector(
+    `#projet-element-gallery-${id}`
+  );
+  if (window.confirm("Souhaitez-vous supprimer cet élément ?")) {
+    try {
+      const token = window.localStorage.getItem("token");
+      const response = await fetch("http://localhost:5678/api/works/" + id, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        method: "DELETE",
+      });
+      if (response.status === 200 || response.status === 204) {
+        // Suppression des éléments du DOM
+        projetElementsModal.remove();
+        projetElementsGallery.remove();
+      }
+    } catch (error) {
+      console.error("Erreur lors de la suppression du projet :", error);
+    }
+  }
+}
+// partie modal-line
+const modalLine = document.createElement("p");
+modalLine.setAttribute("id", "modal-line");
+sectionImageModal.appendChild(modalLine);
+
+// partie changement de page
+const switchPageBtn = document.createElement("button");
+switchPageBtn.setAttribute("id", "switch-page-btn");
+switchPageBtn.classList.add("btn-nav", "active");
+switchPageBtn.innerText = "Ajouter une photo";
+sectionImageModal.appendChild(switchPageBtn);
+
+//listener sur le changement de page de modal
+switchPageBtn.addEventListener("click", () => {
+  switchModalView("add");
+});
 
 export function modalAjoutPhoto() {
   // élément du dom de la modal 2
@@ -445,6 +450,8 @@ export function modalAjoutPhoto() {
       // Appel de la fonction pour ajouter le nouveau projet à la galerie de la page principal et de la modale en temps réel
       addProjectToGallery(newProject);
 
+      resetForm();
+
       // on retourne par défaut à la page modal1
       switchModalView("edit");
 
@@ -529,3 +536,5 @@ function resetForm() {
 
 // on appel la fonction qui affiche la deuxième "page" de la modal
 modalAjoutPhoto();
+
+genererProjetModal();
