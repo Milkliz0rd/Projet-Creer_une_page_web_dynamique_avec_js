@@ -140,7 +140,6 @@ ckeckUserAuthentification();
 //function qui nous déconnecte et supprime le token
 function logOutUser() {
   localStorage.removeItem("token");
-  alert("Vous êtes déconnecté");
   ckeckUserAuthentification();
 }
 

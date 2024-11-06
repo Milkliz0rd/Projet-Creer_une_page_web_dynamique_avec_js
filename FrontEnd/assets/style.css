@@ -653,6 +653,16 @@ select[name="category-picture"] {
   justify-content: center;
   text-decoration: solid;
 }
+.remove-confirmation-button {
+  font-family: "Syne";
+  font-weight: 700;
+  color: white;
+  background-color: #1d6154;
+  margin-left: 60px;
+  width: 180px;
+  text-align: center;
+  border-radius: 60px;
+}
 @media (max-height: 820px) {
   .edition-mode {
     height: 3em;

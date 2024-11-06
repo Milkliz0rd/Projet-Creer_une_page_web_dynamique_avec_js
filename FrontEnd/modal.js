@@ -208,20 +208,30 @@ sectionProjetAdded.appendChild(projetAdded);
 function switchModalView(view) {
   const sectionAjoutProjet = document.querySelector(".section-ajout-projet");
   const sectionImageModal = document.querySelector(".section-image-projet");
+  const sectionRemoveProjet = document.querySelector(".remove-projet");
   if (view === "edit") {
     sectionAjoutProjet.classList.add("hidden");
     sectionImageModal.classList.remove("hidden");
     sectionProjetAdded.classList.add("hidden");
+    sectionRemoveProjet.classList.add("hidden");
   }
   if (view === "add") {
     sectionAjoutProjet.classList.remove("hidden");
     sectionImageModal.classList.add("hidden");
     sectionProjetAdded.classList.add("hidden");
+    sectionRemoveProjet.classList.add("hidden");
   }
   if (view === "projetAdded") {
     sectionAjoutProjet.classList.add("hidden");
     sectionImageModal.classList.add("hidden");
     sectionProjetAdded.classList.remove("hidden");
+    sectionRemoveProjet.classList.add("hidden");
+  }
+  if (view === "removeProjet") {
+    sectionAjoutProjet.classList.add("hidden");
+    sectionImageModal.classList.add("hidden");
+    sectionProjetAdded.classList.add("hidden");
+    sectionRemoveProjet.classList.remove("hidden");
   }
 }
 
@@ -295,13 +305,36 @@ async function genererProjetModal() {
     projetElementsModal.appendChild(deleteButton);
     galleryModal.appendChild(projetElementsModal);
 
-    // Ajout de l'événement de suppression
-    deleteButton.addEventListener("click", async () => {
-      const id = p.id;
-      const projetElementsGallery = document.querySelector(
-        `#projet-element-gallery-${id}`
-      );
-      if (window.confirm("Souhaitez-vous supprimer cet élément ?")) {
+    // Ajout de la page de confirmation de suppression
+    deleteButton.addEventListener("click", () => {
+      switchModalView("removeProjet");
+
+      const sectionRemoveProjet = document.querySelector(".remove-projet");
+      sectionRemoveProjet.innerHTML = "";
+
+      const confirmation = document.createElement("h2");
+      confirmation.innerText = "Voulez-vous vraiment supprimer cet élément ?";
+      sectionRemoveProjet.appendChild(confirmation);
+
+      const retour = document.createElement("button");
+      retour.classList.add("remove-confirmation-button");
+      retour.innerText = "Non";
+      sectionRemoveProjet.appendChild(retour);
+      retour.addEventListener("click", () => {
+        switchModalView("edit");
+      });
+
+      const removeProjet = document.createElement("button");
+      removeProjet.innerText = "oui";
+      removeProjet.classList.add("remove-confirmation-button");
+      sectionRemoveProjet.appendChild(removeProjet);
+
+      //Listener sur la confirmation de suppression
+      removeProjet.addEventListener("click", async () => {
+        const id = p.id;
+        const projetElementsGallery = document.querySelector(
+          `#projet-element-gallery-${id}`
+        );
         try {
           const token = window.localStorage.getItem("token");
           const response = await fetch(`${projetApi}/${id}`, {
@@ -315,11 +348,12 @@ async function genererProjetModal() {
             // Suppression des éléments du DOM
             projetElementsModal.remove();
             projetElementsGallery.remove();
+            switchModalView("edit");
           }
         } catch (error) {
           console.error("Erreur lors de la suppression du projet :", error);
         }
-      }
+      });
     });
   });
 }
@@ -449,10 +483,34 @@ function addProjectToGallery(project) {
   const deleteIcon = document.createElement("i");
   deleteIcon.classList.add("fa-regular", "fa-trash-can", "delete-icon");
   deleteButton.appendChild(deleteIcon);
-  // Ajout de l'événement de suppression pour le nouveau projet dans la modale
-  deleteButton.addEventListener("click", async () => {
-    const id = project.id;
-    if (window.confirm("Souhaitez-vous supprimer cet élément ?")) {
+
+  // Ajout de la page de confirmation de suppression pour le nouveau projet de la modal
+  deleteButton.addEventListener("click", () => {
+    switchModalView("removeProjet");
+
+    const sectionRemoveProjet = document.querySelector(".remove-projet");
+    sectionRemoveProjet.innerHTML = "";
+
+    const confirmation = document.createElement("h2");
+    confirmation.innerText = "Voulez-vous vraiment supprimer cet élément ?";
+    sectionRemoveProjet.appendChild(confirmation);
+
+    const retour = document.createElement("button");
+    retour.classList.add("remove-confirmation-button");
+    retour.innerText = "Non";
+    sectionRemoveProjet.appendChild(retour);
+    retour.addEventListener("click", () => {
+      switchModalView("edit");
+    });
+
+    const removeProjet = document.createElement("button");
+    removeProjet.innerText = "oui";
+    removeProjet.classList.add("remove-confirmation-button");
+    sectionRemoveProjet.appendChild(removeProjet);
+
+    // Ajout de l'événement de suppression pour le nouveau projet dans la modale
+    removeProjet.addEventListener("click", async () => {
+      const id = project.id;
       try {
         const token = window.localStorage.getItem("token");
         const response = await fetch(`${projetApi}/${id}`, {
@@ -466,11 +524,12 @@ function addProjectToGallery(project) {
           // Suppression des éléments du DOM
           modalProjectElement.remove();
           projectElement.remove();
+          switchModalView("edit");
         }
       } catch (error) {
         console.error("Erreur lors de la suppression du projet :", error);
       }
-    }
+    });
   });
   // on rattache les éléments aux parents
   modalProjectElement.appendChild(modalImg);
