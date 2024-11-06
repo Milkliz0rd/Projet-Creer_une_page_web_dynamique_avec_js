@@ -1,6 +1,6 @@
 // on concidère que la modal est égale à null
 let modal = null;
-
+const projetApi = "http://localhost:5678/api/works/";
 //--------------------------modal 1----------------------------
 
 //element du dom de la modal 1
@@ -235,9 +235,7 @@ export function ModalGalleryPhoto() {
 // on créé une fonction qui nous génère les projets de l'api sur notre page modal
 async function genererProjetModal() {
   // on récupère les objets déjà présent sur l'api
-  const projet = await fetch("http://localhost:5678/api/works").then(
-    (response) => response.json()
-  );
+  const projet = await fetch(projetApi).then((response) => response.json());
 
   //partie de la gallery des images des projets
   const galleryModal = document.querySelector(".modif-gallery");
@@ -274,16 +272,13 @@ async function genererProjetModal() {
       if (window.confirm("Souhaitez-vous supprimer cet élément ?")) {
         try {
           const token = window.localStorage.getItem("token");
-          const response = await fetch(
-            "http://localhost:5678/api/works/" + id,
-            {
-              headers: {
-                Accept: "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              method: "DELETE",
-            }
-          );
+          const response = await fetch(`${projetApi}/${id}`, {
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            method: "DELETE",
+          });
           if (response.status === 200 || response.status === 204) {
             // Suppression des éléments du DOM
             projetElementsModal.remove();
@@ -428,7 +423,7 @@ function addProjectToGallery(project) {
     if (window.confirm("Souhaitez-vous supprimer cet élément ?")) {
       try {
         const token = window.localStorage.getItem("token");
-        const response = await fetch("http://localhost:5678/api/works/" + id, {
+        const response = await fetch(`${projetApi}/${id}`, {
           headers: {
             Accept: "application/json",
             Authorization: "Bearer " + token,
@@ -469,14 +464,9 @@ async function sendForm(e) {
   formData.append("title", titleSubmit);
   formData.append("category", categorySubmit);
 
-  if (!pictureSubmit || !titleSubmit || !categorySubmit) {
-    console.error("Veuillez remplir tout votre nouveau projet");
-    return; // Empêche l'appel à l'API
-  }
-
   // on créé une variable réponse qui sera une requête http "post"
   try {
-    const response = await fetch("http://localhost:5678/api/works", {
+    const response = await fetch(projetApi, {
       method: "POST",
       body: formData,
       headers: {

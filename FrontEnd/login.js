@@ -5,6 +5,8 @@ currentPageBtn.classList.add("active-nav-page");
 // élement du DOM qui nous affichera nos message d'erreur
 const errorMessage = document.querySelector("#error-message");
 
+// url de login
+const login = "http://localhost:5678/api/users/login";
 // création de la fonction "initializedLoginUser"
 function initializedLoginUser() {
   // On va chercher l'élément du Dom qui sera notre variable "loginForm"
@@ -36,6 +38,7 @@ function initializedLoginUser() {
           // on retourne une réponse au format json qui contient une promise ayant pour objet "data"
           return response.json().then((data) => {
             // cette promise sera affiché en alert qui contient le message de notre objet provenant de l'api
+            errorMessage.innerHTML = "";
             const message404 = document.createElement("p");
             message404.innerText = data.message;
             errorMessage.appendChild(message404);
@@ -43,6 +46,7 @@ function initializedLoginUser() {
           // réponce pour "et si la réponce de mon API est le status 404"
         } else if (response.status === 401) {
           // on créé une alerte avec une chaine de caractère car l'api n'a pas de réponse pour un statut 401
+          errorMessage.innerHTML = "";
           const message401 = document.createElement("p");
           message401.innerText =
             "Erreur dans l’identifiant ou le mot de passe.";

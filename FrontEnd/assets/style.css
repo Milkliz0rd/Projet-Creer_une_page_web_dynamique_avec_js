@@ -397,6 +397,12 @@ footer {
   justify-content: center;
   color: black;
 }
+#error-message {
+  display: flex;
+  margin: auto;
+  margin-top: 10px;
+  color: red;
+}
 #body-login {
   max-width: 1140px;
   margin: auto;
@@ -629,6 +635,13 @@ select[name="category-picture"] {
 .form-full {
   background-color: #1d6154;
   transition: 0.3ms;
+}
+#projet-added {
+  color: green;
+  font-size: large;
+  display: flex;
+  justify-content: center;
+  text-decoration: solid;
 }
 @media (max-height: 820px) {
   .edition-mode {
