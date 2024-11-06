@@ -555,6 +555,14 @@ async function sendForm(e) {
   formData.append("title", titleSubmit);
   formData.append("category", categorySubmit);
 
+  // condition qui empêche l'appel à l'API
+  if (!pictureSubmit || !titleSubmit || !categorySubmit) {
+    console.error(
+      "Veuillez rensigner toutes les informations de votre nouveau projet"
+    );
+    return;
+  }
+
   // on créé une variable réponse qui sera une requête http "post"
   try {
     const response = await fetch(projetApi, {
