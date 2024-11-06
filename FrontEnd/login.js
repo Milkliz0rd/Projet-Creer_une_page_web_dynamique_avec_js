@@ -28,7 +28,7 @@ function initializedLoginUser() {
     })
       // notre requête fetch renvoie à une promèsse (promise ".then()") qui contient la réponse (l'objet "response")
       .then((response) => {
-        // on créé une conditions en commençant par "si la réponse de mon API est status 404"
+        // on créé une conditions en commençant par "si la réponse de mo'n API est status 404"
         if (response.status === 404) {
           // on retourne une réponse au format json qui contient une promise ayant pour objet "data"
           return response.json().then((data) => {

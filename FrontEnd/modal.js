@@ -468,6 +468,12 @@ async function sendForm(e) {
   formData.append("image", pictureSubmit);
   formData.append("title", titleSubmit);
   formData.append("category", categorySubmit);
+
+  if (!pictureSubmit || !titleSubmit || !categorySubmit) {
+    console.error("Veuillez remplir tout votre nouveau projet");
+    return; // Empêche l'appel à l'API
+  }
+
   // on créé une variable réponse qui sera une requête http "post"
   try {
     const response = await fetch("http://localhost:5678/api/works", {
