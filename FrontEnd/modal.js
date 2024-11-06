@@ -1,5 +1,7 @@
 // on concidère que la modal est égale à null
 let modal = null;
+
+// On créé une variable pour éviter de rappeler toujours l'url lors de nos fetch
 const projetApi = "http://localhost:5678/api/works/";
 //--------------------------modal 1----------------------------
 
@@ -159,8 +161,6 @@ submitFormBtn.disabled = "true";
 // listener du bouton submit ajouter les éléments du formulaire sur l'api et en temps réél sur notre page
 submitFormBtn.addEventListener("click", sendForm);
 
-//--------------------------------------------------------------------------------
-
 // On rattache les élements aux parents
 formModal.appendChild(formAjoutProjet);
 formAjoutProjet.appendChild(containerForm);
@@ -177,6 +177,31 @@ formAjoutProjet.appendChild(addCategoryPictureInput);
 formAjoutProjet.appendChild(modalLine2);
 formAjoutProjet.appendChild(submitFormBtn);
 
+//---------------modal projet validé--------------------------
+const sectionProjetAdded = document.querySelector(".section-projet-added");
+const headermodal3 = document.querySelector(".header-modal-3");
+
+//création du bouton qui fermera la modal
+const closingModalBtn3 = document.createElement("button");
+closingModalBtn3.classList.add("js-modal-close");
+// ajout du logo "croix" qui fermera la modal
+const closingModalLogo3 = document.createElement("i");
+closingModalLogo3.classList.add("fa-solid", "fa-xmark");
+closingModalBtn3.appendChild(closingModalLogo3);
+
+const projetAdded = document.createElement("h2");
+projetAdded.setAttribute("id", "projet-added");
+projetAdded.textContent = "Projet ajouté avec succès!";
+
+closingModalBtn3.addEventListener("click", closeModal);
+closingModalBtn3.addEventListener("click", () => {
+  switchModalView("edit");
+});
+
+headermodal3.appendChild(closingModalBtn3);
+sectionProjetAdded.appendChild(headermodal3);
+sectionProjetAdded.appendChild(projetAdded);
+
 //----------fonction----------
 
 // on créé une fonction qui nous permettra de choisir si nous somme sur la modal 1 ou 2
@@ -186,10 +211,17 @@ function switchModalView(view) {
   if (view === "edit") {
     sectionAjoutProjet.classList.add("hidden");
     sectionImageModal.classList.remove("hidden");
+    sectionProjetAdded.classList.add("hidden");
   }
   if (view === "add") {
     sectionAjoutProjet.classList.remove("hidden");
     sectionImageModal.classList.add("hidden");
+    sectionProjetAdded.classList.add("hidden");
+  }
+  if (view === "projetAdded") {
+    sectionAjoutProjet.classList.add("hidden");
+    sectionImageModal.classList.add("hidden");
+    sectionProjetAdded.classList.remove("hidden");
   }
 }
 
@@ -482,16 +514,15 @@ async function sendForm(e) {
     }
     // Création de la variable qui sera l'ajout du nouveau projet
     const newProject = await response.json();
-    alert("Projet ajouté avec succès!");
     // Appel de la fonction pour ajouter le nouveau projet à la galerie de la page principal et de la modale en temps réel
     addProjectToGallery(newProject);
     // on reset le formulaire
     resetForm();
     // on retourne par défaut à la page modal1
-    switchModalView("edit");
-    // Fermer la modale après l'ajout
-    const modal = document.querySelector(".modal");
-    modal.style.display = "none";
+    switchModalView("projetAdded");
+    // // Fermer la modale après l'ajout
+    // const modal = document.querySelector(".modal");
+    // modal.style.display = "none";
     // En cas d'erreur lors de l'ajout de projet
   } catch (error) {
     alert("Erreur lors de l'ajout du projet:", error);
