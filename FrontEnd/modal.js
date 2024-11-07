@@ -351,7 +351,7 @@ async function genererProjetModal() {
             switchModalView("edit");
           }
         } catch (error) {
-          console.error("Erreur lors de la suppression du projet :", error);
+          // console.error("Erreur lors de la suppression du projet :", error);
         }
       });
     });
@@ -527,7 +527,7 @@ function addProjectToGallery(project) {
           switchModalView("edit");
         }
       } catch (error) {
-        console.error("Erreur lors de la suppression du projet :", error);
+        // console.error("Erreur lors de la suppression du projet :", error);
       }
     });
   });
@@ -557,9 +557,6 @@ async function sendForm(e) {
 
   // condition qui empêche l'appel à l'API
   if (!pictureSubmit || !titleSubmit || !categorySubmit) {
-    console.error(
-      "Veuillez rensigner toutes les informations de votre nouveau projet"
-    );
     return;
   }
 
@@ -576,7 +573,6 @@ async function sendForm(e) {
     // Condition de si "response" est différents de ce que l'on attend
     if (!response.ok) {
       const error = await response.json();
-      console.log("Erreur serveur:", error);
       throw new Error("Erreur lors de l'envoi: " + JSON.stringify(error));
     }
     // Création de la variable qui sera l'ajout du nouveau projet
