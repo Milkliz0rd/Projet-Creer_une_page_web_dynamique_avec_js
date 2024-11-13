@@ -22,7 +22,7 @@ function initializedLoginUser() {
     // on créé notre variable "chargeUtile" qui va nous aider à créé notre requête au près de l'api. Pour cela il faut que celle ci soit en converti en JSON et créer un objet contenant les deux valeurs clés "email" et "password"
     const chargeUtile = JSON.stringify({ email: email, password: password });
     // on utlise la méthode fetch suivi de l'url pour envoyer une requête "http" (ici celle de notre api pour section login)
-    fetch("http://localhost:5678/api/users/login", {
+    fetch(login, {
       // on ajoute l'option de notre requête "http" qui contient un objet avec les paramêtres "method", "headers", et "body":
       // le paramêtre "method" est "POST" car on envoie une requête au serveur
       method: "POST",

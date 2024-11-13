@@ -3,6 +3,7 @@ let modal = null;
 
 // On créé une variable pour éviter de rappeler toujours l'url lors de nos fetch
 const projetApi = "http://localhost:5678/api/works/";
+const categoryApi = "http://localhost:5678/api/categories";
 //--------------------------modal 1----------------------------
 
 //element du dom de la modal 1
@@ -430,7 +431,7 @@ function picturePreview(e) {
 
 // on créé une fonction qui nous permet de créé des options dans notre input select
 async function createCategorieSelect() {
-  const response = await fetch("http://localhost:5678/api/categories");
+  const response = await fetch(categoryApi);
   const categories = await response.json();
   let select = document.getElementById("selectCategorie");
   //création d'une option vide avec valeur spéciale "-1" qui sera par défaut
