@@ -6,11 +6,11 @@ const projetApi = "http://localhost:5678/api/works/";
 const categoryApi = "http://localhost:5678/api/categories";
 //--------------------------modal 1----------------------------
 
-//element du dom de la modal 1
+//  element du dom de la modal 1
 const sectionImageModal = document.querySelector(".section-image-projet");
 const headermodal1 = document.querySelector(".header-modal-1");
 
-//création de la croix qui fermera la modal
+//  création de la croix qui fermera la modal
 const closingModalBtn = document.createElement("button");
 closingModalBtn.classList.add("js-modal-close");
 // ajout du logo "croix" qui fermera la modal
@@ -537,7 +537,7 @@ function addProjectToGallery(project) {
   modalProjectElement.appendChild(deleteButton);
   modalGallery.appendChild(modalProjectElement);
 }
-
+// fonction d'envoie du formulaire ajout projet
 async function sendForm(e) {
   // arrêt du comportement par défaut
   e.preventDefault();
@@ -568,7 +568,7 @@ async function sendForm(e) {
       body: formData,
       headers: {
         accept: "application/json",
-        Authorization: "Bearer " + token,
+        Authorization: `Bearer ${token}`
       },
     });
     // Condition de si "response" est différents de ce que l'on attend
@@ -584,9 +584,6 @@ async function sendForm(e) {
     resetForm();
     // on retourne par défaut à la page modal1
     switchModalView("projetAdded");
-    // // Fermer la modale après l'ajout
-    // const modal = document.querySelector(".modal");
-    // modal.style.display = "none";
     // En cas d'erreur lors de l'ajout de projet
   } catch (error) {
     alert("Erreur lors de l'ajout du projet:", error);
